@@ -1,0 +1,27 @@
+{
+  "name": "@test/vue3",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "module": "./src/index.ts",
+  "files": [
+    "cjs",
+    "esm",
+    "types"
+  ],
+  "scripts": {
+    "build": "rslib build",
+    "dev": "rslib build --watch"
+  },
+  "dependencies": {
+    "vue": "^3.5.25"
+  },
+  "devDependencies": {
+    "@rslib/core": "^0.15.1",
+    "@types/node": "^22.18.10",
+    "typescript": "^5.9.3",
+    "rsbuild-plugin-unplugin-vue": "0.1.0"
+  },
+  "sideEffects": false
+}

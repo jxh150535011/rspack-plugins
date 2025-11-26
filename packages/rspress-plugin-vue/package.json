@@ -1,0 +1,42 @@
+{
+  "name": "rspress-plugin-vue",
+  "version": "2.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "module": "./src/index.ts",
+  "files": [
+    "cjs",
+    "esm",
+    "types"
+  ],
+  "scripts": {
+    "build": "rslib build",
+    "dev": "rslib build --watch"
+  },
+  "dependencies": {
+    "micromatch":"^4.0.0",
+    "rspack-vue-loader": "17.4.4",
+    "vue-loader": "15.11.1"
+  },
+  "peerDependencies": {
+    "@rsbuild/core": "^1.6.9",
+    "@rsbuild/plugin-babel": "^1.0.6",
+    "@rsbuild/plugin-vue": "^1.2.0",
+    
+    "@rspress/core": "^1.46.1",
+    "@rspress/shared": "^1.46.1",
+    "rsbuild-plugin-unplugin-vue": "^0.1.0"
+  },
+  "devDependencies": {
+    "@rslib/core": "^0.15.1",
+    "@types/node": "^22.18.10",
+    "typescript": "^5.9.3",
+    "@types/lodash-es": "^4.17.8",
+    "@types/mdast": "^3.0.10",
+    "@types/micromatch": "^4.0.10"
+    
+    
+  },
+  "sideEffects": false
+}

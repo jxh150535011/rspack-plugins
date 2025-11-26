@@ -1,0 +1,62 @@
+# Local
+.DS_Store
+*.local
+*.log*
+
+# Dist
+node_modules
+dist/
+temp/
+models/
+
+
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+.DS_Store
+dist
+dist-ssr
+coverage
+*.local
+
+/cypress/videos/
+/cypress/screenshots/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
+.eslintcache
+/es
+/lib
+/types
+
+docs/.vitepress/cache/**
+.eslintcache
+doc_build
+doc_temp
+
+docs/**/interfaces
+docs/**/functions
+docs/**/types
+build

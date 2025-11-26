@@ -1,0 +1,38 @@
+{
+  "scripts": {
+    "doc": "rspress dev",
+    "doc:vue2": "rspress dev --config ./rspress.vue2.config.ts",
+    "doc:build": "rspress build && rspress build --config ./rspress.vue2.config.ts",
+    "preview": "rspress preview",
+    "deploy": "NODE_ENV=production node ./scripts/deploy.js",
+    "build": "NODE_ENV=production node ./scripts/build.js && npm run deploy && npm run doc:build"
+  },
+  "type": "module",
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@rspress/shared": "^1.46.1",
+    "@rspress/core": "^1.46.1",
+    "rspress": "^1.46.1",
+    "@rspress/plugin-preview": "^1.46.1",
+    "@rspress/plugin-typedoc": "^1.46.1",
+    "@rspress/plugin-playground": "^1.46.1",
+    "@rspress/plugin-api-docgen": "^1.46.1",
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.14",
+    "@rsbuild/plugin-vue": "^1.2.0",
+    
+    "@types/node": "^22.18.10",
+
+    "typedoc": "^0.24.8",
+    "typedoc-plugin-markdown": "^3.16.0",
+
+    "@types/glob": "^9.0.0",
+    "glob": "^9.0.0",
+    "dotenv": "^16.3.1"
+    
+  }
+}
