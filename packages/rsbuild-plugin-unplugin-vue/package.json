@@ -1,6 +1,6 @@
 {
-  "name": "rslib-plugin-vue2",
-  "version": "1.0.0",
+  "name": "rsbuild-plugin-unplugin-vue2",
+  "version": "1.0.1",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",

@@ -5,7 +5,7 @@
     "doc:build": "rspress build && rspress build --config ./rspress.vue2.config.ts",
     "preview": "rspress preview",
     "deploy": "NODE_ENV=production node ./scripts/deploy.js",
-    "build": "NODE_ENV=production node ./scripts/build.js && npm run deploy && npm run doc:build"
+    "build": "NODE_ENV=production node ./scripts/build.js"
   },
   "type": "module",
   "dependencies": {

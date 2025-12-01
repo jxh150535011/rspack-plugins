@@ -199,8 +199,8 @@ const copyBuildModule = async (item, config, packages) => {
       ...item.pkg.devDependencies,
     },
     // 不做文件路口嗅探 ，默认直接重新设置
-    main: './cjs/index.js',
-    types: './es/index.d.ts',
+    main: './cjs/index.cjs',
+    types: './types/index.d.ts',
     module: './esm/index.js',
     publishConfig: {
       registry: config.publishRegistry,

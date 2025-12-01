@@ -18,6 +18,8 @@ export interface RunTimeTemplateOptions {
   root?: string;
   include?: string[];
   vueLoaderOptions?: any;
+  /** 支持的语言 */
+  language?: string[]
 }
 
 export class RunTimeTemplate {
@@ -27,6 +29,8 @@ export class RunTimeTemplate {
   mode!: string;
   vueLoaderOptions?: any;
   vuePath?: string;
+  language!: string[];
+  languageSet!: Set<string>;
   constructor(options: RunTimeTemplateOptions) {
     this.options = options;
     this.mode = options.mode || 'vue3';
@@ -34,6 +38,8 @@ export class RunTimeTemplate {
     this.include = (options.include || []).concat([this.output]);
     this.vueLoaderOptions = options.vueLoaderOptions;
     this.vuePath = options.vuePath;
+    this.language = [this.mode].concat(options.language || ['vue']);
+    this.languageSet = new Set(this.language);
   }
   clear() {
     mkdirAndClear(this.output)
@@ -41,7 +47,7 @@ export class RunTimeTemplate {
   generate(codeInfo: any) {
 
     const { code, language } = codeInfo;
-    if (this.mode !== language) {
+    if (!this.languageSet.has(language)) {
       return;
     }
     const { root, setup, vuePath } = this.options;
@@ -54,7 +60,6 @@ export class RunTimeTemplate {
       });
     }
     const ext = /<template>/.test(source) ? `.vue` : '.tsx';
-    
     const file = join(output, md5(source) + ext);
     writeFileSync(file, source, 'utf-8');
     if (this.mode === 'vue2') {

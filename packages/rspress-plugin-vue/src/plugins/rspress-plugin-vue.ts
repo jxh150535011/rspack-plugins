@@ -26,6 +26,7 @@ export interface RspressPluginVueOptions {
   // exclude?: Array<RegExp>;
   setup?: string;
   mode?: 'vue2' | 'vue3';
+  language?: string[],
   /** 需要包含编译的vue 文件目录  */
   include?: string[];
   /** 
@@ -41,9 +42,7 @@ export function createRepressPluginVue(options: RspressPluginVueOptions | Rspres
 
   const entrys = options instanceof Array ? options : [options];
 
-  const languageSet = new Set(entrys.map(p => p.mode || 'vue3').filter(p => !!p))
 
-  const language = Array.from(languageSet.values())
 
   // const include = (options?.include || []).concat([/\.(?:jsx|tsx)$/]);
   // const exclude = (options?.exclude || []).concat([
@@ -58,6 +57,7 @@ export function createRepressPluginVue(options: RspressPluginVueOptions | Rspres
     const runtime = new RunTimeTemplate({
       mode: entry.mode,
       vuePath: entry.vuePath,
+      language: entry.language,
       setup: entry.setup,
       include: entry.include,
       vueLoaderOptions: entry.vueLoaderOptions
@@ -65,6 +65,10 @@ export function createRepressPluginVue(options: RspressPluginVueOptions | Rspres
     runtime.clear();
     return runtime;
   })
+
+  const languageSet = new Set(runTimeTemplates.flatMap(p => p.language))
+
+  const language = Array.from(languageSet.values())
 
 
   const previewCodeTransform = (codeInfo: any) => {

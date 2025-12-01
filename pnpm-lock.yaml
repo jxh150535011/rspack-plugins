@@ -127,7 +127,7 @@ importers:
         specifier: ^0.1.0
         version: 0.1.0(@rsbuild/core@1.6.9)(@types/node@22.18.10)(vue@3.5.25)
       rspack-vue-loader:
-        specifier: ^17.4.4
+        specifier: 17.4.4
         version: 17.4.4(vue@3.5.25)(webpack@5.103.0)
       vue-loader:
         specifier: 15.11.1

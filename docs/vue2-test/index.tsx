@@ -13,6 +13,6 @@ export default function DemoPage() {
     )
   }
   return (
-    <Iframe src="/iframe-vue2-test"></Iframe>
+    <Iframe src="/vue2-test"></Iframe>
   );
 }
