@@ -2,14 +2,20 @@
   "compilerOptions": {
     "lib": ["ES2022"],
     "module": "ESNext",
-    "noEmit": true,
+    "noEmit": false,
     "strict": true,
+    "declaration": true,
     "skipLibCheck": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
     "moduleResolution": "bundler",
     "useDefineForClassFields": true,
-    "allowImportingTsExtensions": true
+    "allowImportingTsExtensions": false,
+    "outDir": "./dist",
+    "declarationDir": "./types",
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ],
+  "exclude": ["node_modules", "dist"]
 }

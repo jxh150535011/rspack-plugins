@@ -1,17 +1,14 @@
 import path from 'node:path';
 import type { RspressPlugin, NavItem } from '@rspress/core';
-import { Application, TSConfigReader } from 'typedoc';
-import { load } from 'typedoc-plugin-markdown';
-import { patchGeneratedApiDocs } from './patch';
+
 import { access, mkdir, writeFile, unlink, chmod } from 'node:fs/promises';
 import { join, resolve, relative, dirname } from 'path';
-import { existsSync, unlinkSync, mkdirSync, writeFileSync, chmodSync, rmSync } from 'node:fs';
+
+import { TypeDocExt } from './TypeDocExt';
 
 
-const root = process.cwd();
 
-
-const updateConfigEffect = async (config: any, baseRoute: string) => {
+const updateConfigEffect = (config: any, baseRoute: string) => {
   // 2. Generate "api" nav bar
   config.themeConfig = config.themeConfig || {};
   config.themeConfig.nav = config.themeConfig.nav || [];
@@ -53,7 +50,7 @@ const updateConfigEffect = async (config: any, baseRoute: string) => {
 
 export interface PluginTypeDocExtOptions {
   entryPoints?: string[],
-  outDir?: string,
+  outDir: string,
   title?: string,
 }
 
@@ -61,65 +58,35 @@ export interface PluginTypeDocExtOptions {
  * @rspress/plugin-typedoc 的插件 改造扩展
  * 一旦配置了 outDir 目录，就不能完全灵活定义
  *  */
-export function pluginTypeDocExt(options: PluginTypeDocExtOptions): RspressPlugin {
-  const outDir = options.outDir || '';
+export function pluginTypeDocExt(options: PluginTypeDocExtOptions | PluginTypeDocExtOptions[]): RspressPlugin {
 
-  const entryPoints = (options.entryPoints || []).map(entryPoint => resolve(root, entryPoint));
+  const entrys = options instanceof Array ? options : [options];
 
-  const absoluteApiDir = resolve(root, outDir);
-  // 删除这个几个文件夹
-  ['functions', 'interfaces', 'types', '_meta.json'].forEach(async (name) => {
-    const filePath = join(absoluteApiDir, name);
-    if (existsSync(filePath)) {
-      chmodSync(filePath, 0o777);
-      // 删除这个文件夹
-      rmSync(filePath, { recursive: true, force: true })
-    }
-  });
-  if (!existsSync(absoluteApiDir)) {
-    mkdirSync(absoluteApiDir, { recursive: true });
-  }
-  const metaJsonPath = path.join(absoluteApiDir, '_meta.json');
-  writeFileSync(metaJsonPath, '[]');
+
+
 
   return {
     name: 'plugin-typedoc-ext',
     async config(config: any) {
-      const app = new Application();
+
       const docRoot = config.root;
-      // 必需输出到doc 目录中
-      const relativeApiDir = relative(docRoot, outDir);
-      // 这个文件夹输出的路由
-      const apiPageRoute = `/${relativeApiDir.replace(/(^\/)|(\/$)/, '')}/`; // e.g: /api/
-
-      app.options.addReader(new TSConfigReader());
-      load(app);
-
-
-      app.bootstrap({
-        name: options.title || '概要',
-        entryPoints,
-        theme: 'markdown',
-        disableSources: true,
-        readme: 'none',
-        githubPages: false,
-        requiredToBeDocumented: ['Class', 'Function', 'Interface'],
-        plugin: ['typedoc-plugin-markdown'],
-        // @ts-expect-error - FIXME: current version of MarkdownTheme has no export, bump related package versions
-        hideBreadcrumbs: true,
-        hideMembersSymbol: true,
-        allReflectionsHaveOwnDocument: true,
-        cleanOutputDir: false,
-      });
-      const project = app.convert();
-
-      if (project) {
-        // 1. Generate doc/api, doc/api/_meta.json by typedoc
-        await app.generateDocs(project, absoluteApiDir);
-        await patchGeneratedApiDocs(absoluteApiDir);
+      const items = entrys.map(entry => {
+        return new TypeDocExt({
+          ...entry,
+          docRoot,
+        });
+      })
+      
+      for(let i = 0; i < items.length; i++) {
+        items[i].clear();
       }
 
-      await updateConfigEffect(config, apiPageRoute);
+      await Promise.all(items.map(item => item.bootstrap()))
+
+
+      for(let i = 0; i < items.length; i++) {
+        updateConfigEffect(config, items[i].apiPageRoute)
+      }
 
       return config;
     },

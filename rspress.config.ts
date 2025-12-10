@@ -18,12 +18,20 @@ export default defineConfig({
         devPort: 9081,
       },
     }),
-    pluginTypeDocExt({
-      entryPoints: [
-        './test-packages/utils-test/src'
-      ],
-      outDir: './docs/utils-test'
-    }),
+    pluginTypeDocExt([
+      {
+        entryPoints: [
+          './test-packages/utils-test/src/index.ts'
+        ],
+        outDir: './docs/utils-test'
+      },
+      {
+        entryPoints: [
+          './test-packages/utils-test/src/core.ts'
+        ],
+        outDir: './docs/utils-core'
+      }
+    ]),
   ],
   builderConfig: {
     resolve: {

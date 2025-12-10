@@ -5,6 +5,11 @@
     "activeMatch": "/utils-test/"
   },
   {
+    "text": "核心",
+    "link": "/utils-core/",
+    "activeMatch": "/utils-core/"
+  },
+  {
     "text": "组件(Vue2)",
     "link": "/vue2-test/",
     "activeMatch": "/vue2-test/"
