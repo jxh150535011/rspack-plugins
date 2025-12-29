@@ -1,0 +1,13 @@
+[
+  "index",
+  {
+    "type": "dir",
+    "label": "Functions",
+    "name": "functions"
+  },
+  {
+    "type": "dir",
+    "label": "Interfaces",
+    "name": "interfaces"
+  }
+]
