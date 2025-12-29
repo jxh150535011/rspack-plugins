@@ -99,9 +99,30 @@ export function createRepressPluginVue(options: RspressPluginVueOptions | Rspres
             .resourceQuery(/\?vue&type=template/)
             .use('rspackVueLoader')
             .options({
-              vuePath: vue3Path
+              vuePath: vue3Path,
             })
             .loader(rspackVueLoader);
+
+          chain.module
+            .rule('POST_VUE_TS')
+            .test(/\.ts$/)
+            .use('swc-loader')
+            .loader('builtin:swc-loader')
+            .options({
+              jsc: {
+                parser: {
+                  syntax: 'typescript',
+                  tsx: true,
+                  decorators: true
+                },
+                transform: {
+                  react: {
+                    runtime: 'automatic'
+                  }
+                },
+                target: 'es2022'
+              }
+            });
         },
         rspack: {
           plugins: [

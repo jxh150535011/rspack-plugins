@@ -8,9 +8,9 @@ class RspackVueReplacePlugin {
       if (/\.map$/.test(assetName)) {
         return false;
       }
-      if (assetName.includes('Vue3TestDemo')) {
-        return true;
-      }
+      // if (assetName.includes('Vue3TestDemo') || assetName.includes('Vue3TsTestDemo')) {
+      //   return true;
+      // }
       return false;
     }
     apply(compiler: any) {

@@ -15,6 +15,7 @@
     "dev": "rslib build --watch"
   },
   "dependencies": {
+    "vue": "2.7.16",
     "unplugin-vue2": "^0.1.1",
     "vue-loader": "15.9.8",
     "vue-template-compiler": "2.7.16"

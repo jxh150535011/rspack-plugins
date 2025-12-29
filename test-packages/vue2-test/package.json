@@ -16,7 +16,8 @@
     "dev": "rslib build --watch"
   },
   "dependencies": {
-    "vue": "2.7.16"
+    "vue": "2.7.16",
+    "vue-loader": "15.10.1"
   },
   "devDependencies": {
     "@rslib/core": "^0.15.1",

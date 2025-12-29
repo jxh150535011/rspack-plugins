@@ -26,7 +26,6 @@ export default defineConfig({
   base: baseName,
   themeConfig: {
     hideNavbar: 'always',
-    
   },
   plugins: [
     pluginPreview({
@@ -50,6 +49,7 @@ export default defineConfig({
     },
     resolve: {
       alias: {
+        'vue': resolve(root, './test-packages/vue2-test/node_modules/vue'),
         '@test/vue2': resolve(root, './test-packages/vue2-test/src'),
       },
     },

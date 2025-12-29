@@ -12,6 +12,9 @@ const repressPluginVue = createRepressPluginVue({
   include: [
     resolve(root, './test-packages/vue3-test')
   ],
+  // vueLoaderOptions: {
+  //   experimentalInlineMatchResource: true
+  // }
 })
 
 export default defineConfig({
