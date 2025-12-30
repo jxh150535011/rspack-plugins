@@ -42,8 +42,11 @@ export default defineConfig({
   builderConfig: {
     resolve: {
       alias: {
+        'vue': resolve(root, './test-packages/vue3-test/node_modules/vue'),
         '@test/vue3': resolve(root, './test-packages/vue3-test/src'),
       },
+    },
+    source: {
     },
     server: {
       port: 9082,

@@ -4,6 +4,7 @@
     "doc:vue2": "rspress dev --config ./rspress.vue2.config.ts",
     "doc:vue3": "rspress dev --config ./rspress.vue3.config.ts",
     "doc:build": "rspress build && rspress build --config ./rspress.vue2.config.ts",
+    "doc:build:vue3": "rspress build --config ./rspress.vue3.config.ts",
     "preview": "rspress preview",
     "deploy": "NODE_ENV=production node ./scripts/deploy.js",
     "build": "NODE_ENV=production node ./scripts/build.js"

@@ -15,7 +15,8 @@
     "dev": "rslib build --watch"
   },
   "dependencies": {
-    "vue": "^3.5.25"
+    "vue": "^3.5.25",
+    "@vue/server-renderer": "^3.5.25"
   },
   "devDependencies": {
     "@rslib/core": "^0.15.1",
