@@ -1,6 +1,6 @@
 {
   "name": "rspress-plugin-vue",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",

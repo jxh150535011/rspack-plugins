@@ -23,13 +23,15 @@ export default defineConfig({
         entryPoints: [
           './test-packages/utils-test/src/index.ts'
         ],
-        outDir: './docs/utils-test'
+        outDir: './docs/utils-test',
+        enable: false,
       },
       {
         entryPoints: [
           './test-packages/utils-test/src/core.ts'
         ],
-        outDir: './docs/utils-core'
+        outDir: './docs/utils-core',
+        enable: false,
       }
     ]),
   ],

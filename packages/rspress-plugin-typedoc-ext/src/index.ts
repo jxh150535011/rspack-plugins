@@ -3,9 +3,9 @@ import type { RspressPlugin, NavItem } from '@rspress/core';
 
 import { access, mkdir, writeFile, unlink, chmod } from 'node:fs/promises';
 import { join, resolve, relative, dirname } from 'path';
+import { existsSync, readFileSync, mkdirSync } from 'fs';
 
 import { TypeDocExt } from './TypeDocExt';
-
 
 
 const updateConfigEffect = (config: any, baseRoute: string) => {
@@ -52,6 +52,8 @@ export interface PluginTypeDocExtOptions {
   entryPoints?: string[],
   outDir: string,
   title?: string,
+  /** 是否启用， 默认为 true */
+  enable?: boolean;
 }
 
 /** 
@@ -75,12 +77,11 @@ export function pluginTypeDocExt(options: PluginTypeDocExtOptions | PluginTypeDo
           ...entry,
           docRoot,
         });
-      })
+      }).filter(p => !!p)
       
       for(let i = 0; i < items.length; i++) {
-        items[i].clear();
+        items[i].init();
       }
-
       await Promise.all(items.map(item => item.bootstrap()))
 
 
