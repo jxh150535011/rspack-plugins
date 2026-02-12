@@ -1,5 +1,19 @@
 [
-  "index",
+  {
+    "type": "file",
+    "label": "README.md",
+    "name": "README.md"
+  },
+  {
+    "type": "file",
+    "label": "Test.md",
+    "name": "test.md"
+  },
+  {
+    "type": "dir",
+    "label": "Cases",
+    "name": "cases"
+  },
   {
     "type": "dir",
     "label": "Functions",

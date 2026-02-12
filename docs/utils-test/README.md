@@ -12,3 +12,12 @@
 ## Functions
 
 - [getTest](./functions/getTest.md)
+
+
+### Test.md
+
+- [test.md](./test.md)
+
+### Cases
+
+- [index](./cases/index.md)

@@ -5,16 +5,19 @@ import { join, resolve, relative, dirname } from 'path';
 import { Application, TSConfigReader } from 'typedoc';
 import { load } from 'typedoc-plugin-markdown';
 import { patchGeneratedApiDocs } from './patch';
+import { getFilesSync } from './utils';
 
 const root = process.cwd();
 
 export interface TypeDocExtOptions {
   entryPoints?: string[];
+  entryFileName?: string;
   outDir: string;
   title?: string;
   docRoot: string;
   enable?: boolean;
   typeDocOptions?: any;
+  generateFiles?: string[]
 }
 export class TypeDocExt {
   public options!: TypeDocExtOptions;
@@ -25,6 +28,8 @@ export class TypeDocExt {
   public relativeApiDir!: string;
   public apiPageRoute!: string;
   public enable!: boolean;
+  public generateFiles!: string[];
+  public entryFileName!: string;
 
   constructor(options: TypeDocExtOptions) {
     this.options = options;
@@ -37,10 +42,20 @@ export class TypeDocExt {
     this.relativeApiDir = relative(this.docRoot, options.outDir);
     // 这个文件夹输出的路由
     this.apiPageRoute = `/${this.relativeApiDir.replace(/(^\/)|(\/$)/, '')}/`; // e.g: /api/
+
+    this.generateFiles = options.generateFiles || ['cases'];
+    this.entryFileName = options.entryFileName || 'README.md';
   }
   clear() {
-    // 删除这个几个文件夹
-    ['functions', 'interfaces', 'types', '_meta.json'].forEach(async (name) => {
+    // 遍历当前目标文件下 不符合的全部删除
+    const files = getFilesSync(this.absoluteApiDir);
+    const includesFileSet = new Set(this.generateFiles);
+    
+    files.forEach((file) => {
+      const name = file.name;
+      if (includesFileSet.has(name)) {
+        return;
+      }
       const filePath = join(this.absoluteApiDir, name);
       if (existsSync(filePath)) {
         chmodSync(filePath, 0o777);
@@ -154,10 +169,19 @@ export class TypeDocExt {
       process.exit(1);
     }
 
-    if (project) {
-      // 1. Generate doc/api, doc/api/_meta.json by typedoc
-      await app.generateOutputs(project);
-      await patchGeneratedApiDocs(this.absoluteApiDir);
+    try {
+      if (project) {
+        // 1. Generate doc/api, doc/api/_meta.json by typedoc
+        await app.generateOutputs(project);
+        await patchGeneratedApiDocs({
+          absoluteApiDir: this.absoluteApiDir,
+          generateFiles: this.generateFiles,
+          entryFileName: this.entryFileName,
+        });
+      }
+    } catch (error) {
+      console.error('Error generating API docs:', error);
+      process.exit(1);
     }
   }
 }

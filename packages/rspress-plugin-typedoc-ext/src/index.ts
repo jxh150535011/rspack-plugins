@@ -55,6 +55,10 @@ export interface PluginTypeDocExtOptions {
   typeDocOptions?: any,
   /** 是否启用， 默认为 true */
   enable?: boolean;
+  /** 需要 自动生成的文件 默认 ['cases'] */
+  generateFiles?: string[];
+  /** 入口文件名  默认 'README.md'  需要和生成的 主入口文件一致 */
+  entryFileName?: string;
 }
 
 /** 

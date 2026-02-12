@@ -1,5 +1,9 @@
 [
-  "index",
+  {
+    "type": "file",
+    "label": "README.md",
+    "name": "README.md"
+  },
   {
     "type": "dir",
     "label": "Functions",

@@ -1,6 +1,7 @@
 import { existsSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { orderBy } from 'lodash-es';
 
 async function patchLinks(outputDir: string) {
   // Patch links in markdown files
@@ -64,72 +65,90 @@ async function getFiles(absoluteApiDir: string) {
   })
 }
 
-async function generateMetaJson(absoluteApiDir: string) {
+async function generateMetaJson(absoluteApiDir: string, generateFiles: string[]) {
 
   const files = await getFiles(absoluteApiDir);
-  const dirs = files.filter(item => item.isDir).map(item => item.name);
 
-  const meta = dirs.map(dir => ({
-    type: 'dir',
-    label: dir.slice(0, 1).toUpperCase() + dir.slice(1),
-    name: dir,
-  }));
+  // 生成meta.json 文件
+  let meta = files.map(file => {
+    if (file.name === '_meta.json') {
+      return;
+    }
+    return {
+      type:  file.isDir ? 'dir' : 'file',
+      label: file.name.slice(0, 1).toUpperCase() + file.name.slice(1),
+      name: file.name,
+    }
+  }).filter(item => !!item);
 
-  // 读取不存在的目录，排出掉 
-  // functions , interfaces, types
+  // 对 meta 进行排序 , 优先显示 README.md ， 之后是文件， 再文件夹
+  meta = orderBy(meta, (item) => {
+    if (['README.md', 'index.md'].includes(item.name)) {
+      return 0;
+    }
+    if (item.type === 'file') {
+      return 1;
+    }
+    return 2
+  });
 
-  const excludeSet = new Set(['functions', 'interfaces', 'types'])
-  const excludeDirItems = meta.filter(item => !excludeSet.has(item.name));
+  const includeSet = new Set(generateFiles)
+  // 将其余的 目录加入到 摘要中
+  const appendMeta = meta.filter(item => includeSet.has(item.name));
 
-  const contents = await Promise.all(excludeDirItems.map(async (item, index) => {
-    const dirPath = path.join(absoluteApiDir, dirs[index]);
-    const files = await getFiles(dirPath);
-    const fileItems = files.filter(file => !file.isDir);
-    const dirName = item.name;
+  const contents = await Promise.all(appendMeta.map(async (item, index) => {
+    const metaItem = appendMeta[index];
+    if (metaItem.type === 'dir') {
+      const dirPath = path.join(absoluteApiDir, metaItem.name);
+      const files = await getFiles(dirPath);
+      const fileItems = files.filter(file => !file.isDir);
+      const dirName = item.name;
 
-    const fileContents = fileItems.map(file => {
-      const ext = path.extname(file.name);
-      const name = path.basename(file.name, ext);
-      return `- [${name}](./${dirName}/${file.name})`
-    }).join('\n');
+      const fileContents = fileItems.map(file => {
+        const ext = path.extname(file.name);
+        const name = path.basename(file.name, ext);
+        return `- [${name}](./${dirName}/${file.name})`
+      }).join('\n');
 
-    return `### ${item.label}\n\n${fileContents}\n`
+      return `### ${item.label}\n\n${fileContents}\n`
+    } else {
+      return `### ${item.label}\n\n- [${item.name}](./${item.name})\n`
+    }
   }));
 
   // apppendContent 新增的文案内容
   return {
     apppendContent: contents.join('\n'),
-    meta: ['index', ...meta],
+    meta,
   }
 }
 
-export async function patchGeneratedApiDocs(absoluteApiDir: string) {
+export interface PatchGeneratedApiDocsOptions {
+  absoluteApiDir: string;
+  generateFiles: string[];
+  entryFileName: string;
+}
+
+export async function patchGeneratedApiDocs(options: PatchGeneratedApiDocsOptions) {
+
+  const { absoluteApiDir, generateFiles, entryFileName } = options;
+
   await patchLinks(absoluteApiDir);
   const metaJsonPath = path.join(absoluteApiDir, '_meta.json');
-  const { apppendContent, meta } = await generateMetaJson(absoluteApiDir);
+  const { apppendContent, meta } = await generateMetaJson(absoluteApiDir, generateFiles);
 
 
-  const readeMePath = path.join(absoluteApiDir, 'README.md');
+  const entryFileNamePath = path.join(absoluteApiDir, entryFileName);
   let content;
-  const hasExists = existsSync(readeMePath);
-  if (hasExists) {
-    content = await fs.readFile(readeMePath, 'utf-8');
+  const hasEntryFile = existsSync(entryFileNamePath);
+  if (hasEntryFile) {
+    content = await fs.readFile(entryFileNamePath, 'utf-8');
   }
-  const newContent = (content || '').replace('## Table of contents\n', [
-    '## Table of contents',
+  const newContent = [
+    content || '',
     '',
     apppendContent
-  ].join('\n'));
-  await fs.writeFile(path.join(absoluteApiDir, 'index.md'), newContent);
-  if (hasExists) {
-    await fs.unlink(path.join(absoluteApiDir, 'README.md'));
-  }
-  
-  // Delete .nojekyll file if it exists
-  const nojekyllPath = path.join(absoluteApiDir, '.nojekyll');
-  if (existsSync(nojekyllPath)) {
-    await fs.unlink(nojekyllPath);
-  }
-  
+  ].join('\n');
+  await fs.writeFile(entryFileNamePath, newContent);
   await fs.writeFile(metaJsonPath, JSON.stringify(meta, null, 2));
 }

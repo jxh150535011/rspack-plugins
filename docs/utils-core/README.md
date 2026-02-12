@@ -11,3 +11,5 @@
 ## Functions
 
 - [getTestCore](./functions/getTestCore.md)
+
+

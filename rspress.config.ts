@@ -25,6 +25,10 @@ export default defineConfig({
         ],
         outDir: './docs/utils-test',
         enable: true,
+        generateFiles: ['cases', 'test.md'],
+        typeDocOptions: {
+          sourceLinkExternal: true,
+        },
       },
       {
         entryPoints: [
@@ -32,6 +36,10 @@ export default defineConfig({
         ],
         outDir: './docs/utils-core',
         enable: true,
+        
+        typeDocOptions: {
+          sourceLinkExternal: true,
+        },
       }
     ]),
   ],
