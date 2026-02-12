@@ -14,6 +14,7 @@ export interface TypeDocExtOptions {
   title?: string;
   docRoot: string;
   enable?: boolean;
+  typeDocOptions?: any;
 }
 export class TypeDocExt {
   public options!: TypeDocExtOptions;
@@ -129,6 +130,7 @@ export class TypeDocExt {
       // // @ts-expect-error - FIXME: current version of MarkdownTheme has no export, bump related package versions
       // hideBreadcrumbs: true,
       cleanOutputDir: false,
+      ...this.options.typeDocOptions,
     })
     // const app = new Application();
     // app.options.addReader(new TSConfigReader());

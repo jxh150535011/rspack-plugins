@@ -52,6 +52,7 @@ export interface PluginTypeDocExtOptions {
   entryPoints?: string[],
   outDir: string,
   title?: string,
+  typeDocOptions?: any,
   /** 是否启用， 默认为 true */
   enable?: boolean;
 }
