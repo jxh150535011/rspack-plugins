@@ -24,14 +24,14 @@ export default defineConfig({
           './test-packages/utils-test/src/index.ts'
         ],
         outDir: './docs/utils-test',
-        enable: false,
+        enable: true,
       },
       {
         entryPoints: [
           './test-packages/utils-test/src/core.ts'
         ],
         outDir: './docs/utils-core',
-        enable: false,
+        enable: true,
       }
     ]),
   ],

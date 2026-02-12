@@ -60,3 +60,4 @@ docs/**/interfaces
 docs/**/functions
 docs/**/types
 build
+docs_test

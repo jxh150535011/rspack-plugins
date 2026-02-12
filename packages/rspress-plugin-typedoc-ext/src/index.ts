@@ -64,9 +64,6 @@ export function pluginTypeDocExt(options: PluginTypeDocExtOptions | PluginTypeDo
 
   const entrys = options instanceof Array ? options : [options];
 
-
-
-
   return {
     name: 'plugin-typedoc-ext',
     async config(config: any) {

@@ -89,35 +89,73 @@ export class TypeDocExt {
       return;
     }
 
-    const app = new Application();
-      app.options.addReader(new TSConfigReader());
-      load(app);
 
+   
+  
+  // // 📌 Markdown 输出配置
+  // out: './docs',  // 输出目录，所有文件都将以 .md 格式输出
+  
+  // // 📌 重要：确保每个符号单独文件
+  // allReflectionsHaveOwnDocument: true,  // 每个类/函数等生成独立 .md 文件
+  
+  // // 📌 可选但推荐的 Markdown 配置
+  // hideBreadcrumbs: true,      // 隐藏面包屑导航
+  // hideMembersSymbol: true,    // 隐藏成员符号
+  // entryDocument: 'README.md', // 入口文档名称
+  // hidePageHeader: false,      // 是否隐藏页头
+  // hidePageTitle: false,       // 是否隐藏页面标题
+  
+  // // 其他配置...
+  // name: this.options.title || '概要',
+  // disableSources: true,
+  // readme: 'none',
+  // githubPages: false,
+  // cleanOutputDir: false,
 
-      app.bootstrap({
-        name: this.options.title || '概要',
-        entryPoints: this.entryPoints,
-        theme: 'markdown',
-        disableSources: true,
-        readme: 'none',
-        githubPages: false,
-        requiredToBeDocumented: ['Class', 'Function', 'Interface'],
-        plugin: ['typedoc-plugin-markdown'],
-        // @ts-expect-error - FIXME: current version of MarkdownTheme has no export, bump related package versions
-        hideBreadcrumbs: true,
-        hideMembersSymbol: true,
-        allReflectionsHaveOwnDocument: true,
-        cleanOutputDir: false,
-      });
-      const project = app.convert();
-      if (!project) {
-        process.exit(1);
-      }
+    const app = await Application.bootstrapWithPlugins({
+      name: this.options.title || '概要',
+      entryPoints: this.entryPoints,
+      // theme: 'markdown',
+      out: this.absoluteApiDir,
+      // markdownItOptions: {
+      //   fileExtension: '.md',
+      // },
+      // theme: 'typedoc-plugin-markdown',
+      plugin: ['typedoc-plugin-markdown'],
+      // disableSources: true,
+      // readme: 'none',
+      // githubPages: false,
+      // requiredToBeDocumented: ['Class', 'Function', 'Interface'],
+      // // @ts-expect-error - FIXME: current version of MarkdownTheme has no export, bump related package versions
+      // hideBreadcrumbs: true,
+      cleanOutputDir: false,
+    })
+    // const app = new Application();
+    // app.options.addReader(new TSConfigReader());
+    // load(app);
 
-      if (project) {
-        // 1. Generate doc/api, doc/api/_meta.json by typedoc
-        await app.generateDocs(project, this.absoluteApiDir);
-        await patchGeneratedApiDocs(this.absoluteApiDir);
-      }
+    // app.bootstrap({
+    //   name: this.options.title || '概要',
+    //   entryPoints: this.entryPoints,
+    //   theme: 'markdown',
+    //   disableSources: true,
+    //   readme: 'none',
+    //   githubPages: false,
+    //   requiredToBeDocumented: ['Class', 'Function', 'Interface'],
+    //   plugin: ['typedoc-plugin-markdown'],
+    //   // @ts-expect-error - FIXME: current version of MarkdownTheme has no export, bump related package versions
+    //   hideBreadcrumbs: true,
+    //   cleanOutputDir: false,
+    // });
+    const project = await app.convert();
+    if (!project) {
+      process.exit(1);
+    }
+
+    if (project) {
+      // 1. Generate doc/api, doc/api/_meta.json by typedoc
+      await app.generateOutputs(project);
+      await patchGeneratedApiDocs(this.absoluteApiDir);
+    }
   }
 }

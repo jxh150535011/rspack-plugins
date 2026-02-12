@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
@@ -106,13 +107,29 @@ export async function patchGeneratedApiDocs(absoluteApiDir: string) {
   await patchLinks(absoluteApiDir);
   const metaJsonPath = path.join(absoluteApiDir, '_meta.json');
   const { apppendContent, meta } = await generateMetaJson(absoluteApiDir);
-  const content = await fs.readFile(path.join(absoluteApiDir, 'README.md'), 'utf-8');
+
+
+  const readeMePath = path.join(absoluteApiDir, 'README.md');
+  let content;
+  const hasExists = existsSync(readeMePath);
+  if (hasExists) {
+    content = await fs.readFile(readeMePath, 'utf-8');
+  }
   const newContent = (content || '').replace('## Table of contents\n', [
     '## Table of contents',
     '',
     apppendContent
   ].join('\n'));
   await fs.writeFile(path.join(absoluteApiDir, 'index.md'), newContent);
-  await fs.unlink(path.join(absoluteApiDir, 'README.md'));
+  if (hasExists) {
+    await fs.unlink(path.join(absoluteApiDir, 'README.md'));
+  }
+  
+  // Delete .nojekyll file if it exists
+  const nojekyllPath = path.join(absoluteApiDir, '.nojekyll');
+  if (existsSync(nojekyllPath)) {
+    await fs.unlink(nojekyllPath);
+  }
+  
   await fs.writeFile(metaJsonPath, JSON.stringify(meta, null, 2));
 }
