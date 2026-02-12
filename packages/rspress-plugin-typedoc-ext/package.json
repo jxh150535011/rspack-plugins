@@ -1,13 +1,13 @@
 {
   "name": "rspress-plugin-typedoc-ext",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "module": "./src/index.ts",
   "files": [
-    "cjs",
     "esm",
+    "cjs",
     "types"
   ],
   "scripts": {

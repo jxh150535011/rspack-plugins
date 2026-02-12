@@ -3,7 +3,7 @@ import { join, resolve, relative, dirname } from 'path';
 
 
 import { Application, TSConfigReader } from 'typedoc';
-import { load } from 'typedoc-plugin-markdown';
+import { load as loadMarkdownPlugin } from 'typedoc-plugin-markdown';
 import { patchGeneratedApiDocs } from './patch';
 import { getFilesSync } from './utils';
 
@@ -137,7 +137,9 @@ export class TypeDocExt {
       //   fileExtension: '.md',
       // },
       // theme: 'typedoc-plugin-markdown',
-      plugin: ['typedoc-plugin-markdown'],
+      plugin: [
+        loadMarkdownPlugin
+      ],
       // disableSources: true,
       // readme: 'none',
       // githubPages: false,
@@ -148,6 +150,8 @@ export class TypeDocExt {
       ...this.options.typeDocOptions,
       entryFileName: this.entryFileName,
     })
+
+
     // const app = new Application();
     // app.options.addReader(new TSConfigReader());
     // load(app);

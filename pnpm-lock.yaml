@@ -57,6 +57,9 @@ importers:
       rspress:
         specifier: ^1.46.1
         version: 1.47.0(webpack@5.104.1)
+      rspress-plugin-typedoc-ext:
+        specifier: ^1.1.4
+        version: 1.1.4(typedoc-plugin-markdown@4.10.0(typedoc@0.28.16(typescript@5.9.3)))(typedoc@0.28.16(typescript@5.9.3))
       typedoc:
         specifier: ^0.28.16
         version: 0.28.16(typescript@5.9.3)
@@ -3357,6 +3360,12 @@ packages:
         optional: true
       vue:
         optional: true
+
+  rspress-plugin-typedoc-ext@1.1.4:
+    resolution: {integrity: sha512-jVToJohAhPasJbDwdazbrQw/hX5wqdxtRHrRnQs+I4/MQY/apDpjwXaCE2pYOfzO8u9W4ladGSle4xQ7bBaoZA==}
+    peerDependencies:
+      typedoc: ^0.28.16
+      typedoc-plugin-markdown: ^4.10.0
 
   rspress@1.47.0:
     resolution: {integrity: sha512-/zvp/etlIsxahbege6mP4vDC49uliUSCZdjU8/9XHYas3Bw6ySAL46lhARocUAbztDlzgf3LakT/kB3g83rEEA==}
@@ -7672,6 +7681,11 @@ snapshots:
     optionalDependencies:
       '@vue/compiler-sfc': 3.5.26
       vue: 3.5.26(typescript@5.9.3)
+
+  rspress-plugin-typedoc-ext@1.1.4(typedoc-plugin-markdown@4.10.0(typedoc@0.28.16(typescript@5.9.3)))(typedoc@0.28.16(typescript@5.9.3)):
+    dependencies:
+      typedoc: 0.28.16(typescript@5.9.3)
+      typedoc-plugin-markdown: 4.10.0(typedoc@0.28.16(typescript@5.9.3))
 
   rspress@1.47.0(webpack@5.104.1):
     dependencies:
