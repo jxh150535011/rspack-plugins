@@ -28,6 +28,7 @@ export default defineConfig({
         generateFiles: ['cases', 'test.md'],
         typeDocOptions: {
           sourceLinkExternal: true,
+          readme: 'none',
         },
       },
       {
@@ -36,9 +37,10 @@ export default defineConfig({
         ],
         outDir: './docs/utils-core',
         enable: true,
-        
+        entryFileName: 'index.md',
         typeDocOptions: {
           sourceLinkExternal: true,
+          readme: 'none',
         },
       }
     ]),

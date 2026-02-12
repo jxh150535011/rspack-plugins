@@ -65,8 +65,15 @@ async function getFiles(absoluteApiDir: string) {
   })
 }
 
-async function generateMetaJson(absoluteApiDir: string, generateFiles: string[]) {
+export interface PatchGeneratedApiDocsOptions {
+  absoluteApiDir: string;
+  generateFiles: string[];
+  entryFileName: string;
+}
 
+async function generateMetaJson(options: PatchGeneratedApiDocsOptions) {
+
+  const { absoluteApiDir, generateFiles, entryFileName } = options;
   const files = await getFiles(absoluteApiDir);
 
   // 生成meta.json 文件
@@ -81,9 +88,9 @@ async function generateMetaJson(absoluteApiDir: string, generateFiles: string[])
     }
   }).filter(item => !!item);
 
-  // 对 meta 进行排序 , 优先显示 README.md ， 之后是文件， 再文件夹
+  // 对 meta 进行排序 , 优先显示 entryFileName ， 之后是文件， 再文件夹
   meta = orderBy(meta, (item) => {
-    if (['README.md', 'index.md'].includes(item.name)) {
+    if (entryFileName === item.name) {
       return 0;
     }
     if (item.type === 'file') {
@@ -123,11 +130,7 @@ async function generateMetaJson(absoluteApiDir: string, generateFiles: string[])
   }
 }
 
-export interface PatchGeneratedApiDocsOptions {
-  absoluteApiDir: string;
-  generateFiles: string[];
-  entryFileName: string;
-}
+
 
 export async function patchGeneratedApiDocs(options: PatchGeneratedApiDocsOptions) {
 
@@ -135,7 +138,7 @@ export async function patchGeneratedApiDocs(options: PatchGeneratedApiDocsOption
 
   await patchLinks(absoluteApiDir);
   const metaJsonPath = path.join(absoluteApiDir, '_meta.json');
-  const { apppendContent, meta } = await generateMetaJson(absoluteApiDir, generateFiles);
+  const { apppendContent, meta } = await generateMetaJson(options);
 
 
   const entryFileNamePath = path.join(absoluteApiDir, entryFileName);

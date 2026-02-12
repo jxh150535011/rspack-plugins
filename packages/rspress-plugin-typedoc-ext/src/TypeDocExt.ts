@@ -44,7 +44,7 @@ export class TypeDocExt {
     this.apiPageRoute = `/${this.relativeApiDir.replace(/(^\/)|(\/$)/, '')}/`; // e.g: /api/
 
     this.generateFiles = options.generateFiles || ['cases'];
-    this.entryFileName = options.entryFileName || 'README.md';
+    this.entryFileName = options.entryFileName || 'index.md';
   }
   clear() {
     // 遍历当前目标文件下 不符合的全部删除
@@ -146,6 +146,7 @@ export class TypeDocExt {
       // hideBreadcrumbs: true,
       cleanOutputDir: false,
       ...this.options.typeDocOptions,
+      entryFileName: this.entryFileName,
     })
     // const app = new Application();
     // app.options.addReader(new TSConfigReader());
