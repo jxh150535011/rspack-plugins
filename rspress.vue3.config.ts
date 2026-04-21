@@ -2,7 +2,7 @@ import { resolve } from 'path';
 import { defineConfig } from 'rspress/config';
 import { pluginPreview } from '@rspress/plugin-preview';
 import { createRepressPluginVue } from './packages/rspress-plugin-vue';
-
+import { pluginVue } from '@rsbuild/plugin-vue';
 const root = process.cwd();
 
 const docRoot = resolve(root, './test-packages/vue3-test/docs')
@@ -24,9 +24,34 @@ export default defineConfig({
   title: '测试',
   outDir: 'dist/vue3-test',
   plugins: [
+    // pluginPreview({
+    //   iframeOptions: {
+    //     devPort: 9081,
+    //   },
+    //   previewLanguages: ['tsx', 'ts', 'jsx', 'js',...repressPluginVue.language],
+    //   previewCodeTransform(codeInfo) {
+    //     let content = repressPluginVue.previewCodeTransform(codeInfo);
+    //     if (content) {
+    //       return content;
+    //     }
+    //     return codeInfo.code
+    //   },
+    // }),
+    // repressPluginVue.plugin,
+
     pluginPreview({
+      previewMode: 'iframe',
       iframeOptions: {
-        devPort: 9081,
+        devPort: 9083,
+        builderConfig: {
+          resolve: {
+            alias: {
+              'vue': resolve(root, './test-packages/vue3-test/node_modules/vue'),
+              '@test/vue3': resolve(root, './test-packages/vue3-test/src'),
+            },
+          },
+          plugins: [pluginVue()],
+        },
       },
       previewLanguages: ['tsx', 'ts', 'jsx', 'js',...repressPluginVue.language],
       previewCodeTransform(codeInfo) {
@@ -36,8 +61,8 @@ export default defineConfig({
         }
         return codeInfo.code
       },
+
     }),
-    repressPluginVue.plugin,
   ],
   builderConfig: {
     resolve: {

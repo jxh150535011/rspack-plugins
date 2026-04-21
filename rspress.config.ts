@@ -1,8 +1,8 @@
 import { resolve } from 'path';
 import { defineConfig } from 'rspress/config';
 import { pluginPreview } from '@rspress/plugin-preview';
-import { pluginTypeDocExt } from './packages/rspress-plugin-typedoc-ext';
-// import { pluginTypeDocExt } from 'rspress-plugin-typedoc-ext';
+// import { pluginTypeDocExt } from './packages/rspress-plugin-typedoc-ext';
+import { pluginTypeDocExt } from 'rspress-plugin-typedoc-ext';
 
 const root = process.cwd();
 

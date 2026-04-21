@@ -17,7 +17,7 @@ export class Vue2RunTimeTemplate {
     const { code, file, setup, vuePath = 'vue' } = this.options;
     const compontentKey = '__Compontent';
     const injectCompontentCode = `import ${compontentKey} from ${JSON.stringify(file)};`;
-    const injectSetupCode = setup ? `import setup from '${setup}';` : 'const setup = () => {};';
+    const injectSetupCode = setup ? `import setup from ${JSON.stringify(setup)};` : 'const setup = () => {};';
     return `
 import React, { useRef, useLayoutEffect } from 'react';
 import Vue from ${JSON.stringify(vuePath)};
