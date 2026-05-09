@@ -2,6 +2,8 @@
   "scripts": {
     "doc": "rspress dev",
     "doctype": "node ./scripts/doctype.js",
+    "doc:preact-json-view": "cd ./packages/preact-json-view && npm run doc",
+    "build:preact-json-view": "cd ./packages/preact-json-view && npm run build",
     "doc:vue2": "cd test-packages/vue2-test && rspress dev",
     "doc:vue3": "rspress dev --config ./rspress.vue3.config.ts",
     "doc:build": "rspress build && rspress build --config ./rspress.vue2.config.ts",
