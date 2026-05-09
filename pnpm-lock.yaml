@@ -100,6 +100,18 @@ importers:
       '@types/node':
         specifier: ^22.18.10
         version: 22.19.3
+      '@types/react':
+        specifier: ^18.2.14
+        version: 18.3.27
+      '@types/react-dom':
+        specifier: ^18.2.14
+        version: 18.3.7(@types/react@18.3.27)
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.3.1(react@18.3.1)
       rspress:
         specifier: ^1.47.1
         version: 1.47.1(webpack@5.104.1)
@@ -133,6 +145,18 @@ importers:
         version: 5.9.3
 
   packages/rspress-plugin-copy:
+    devDependencies:
+      '@rslib/core':
+        specifier: ^0.15.1
+        version: 0.15.1(typescript@5.9.3)
+      '@types/node':
+        specifier: ^22.18.10
+        version: 22.19.3
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
+  packages/rspress-plugin-preact:
     devDependencies:
       '@rslib/core':
         specifier: ^0.15.1

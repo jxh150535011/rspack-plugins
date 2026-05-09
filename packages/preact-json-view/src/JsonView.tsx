@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'preact/hooks';
 import { vscodeTheme } from './theme';
-import style from './style/index.module.less';
+import './style/index.less';
 
 interface JsonViewProps {
   data: unknown;
@@ -209,9 +209,10 @@ export function JsonView(props: JsonViewProps) {
   // };
 
   return (
-    <div className={style.container}>
+    <div className="pjv-container">
+      Hello World
       {tree ? (
-        <ul className={style.tree}>
+        <ul className="pjv-tree">
           {/* <TreeItem
             node={tree}
             depth={0}
@@ -221,7 +222,7 @@ export function JsonView(props: JsonViewProps) {
           /> */}
         </ul>
       ) : (
-        <span className={style['value--null']}>null</span>
+        <span className="pjv-value pjv-value--null">null</span>
       )}
     </div>
   );

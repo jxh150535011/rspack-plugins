@@ -5,7 +5,6 @@ import { pluginPreact } from '@rsbuild/plugin-preact';
 import { pluginLess } from '@rsbuild/plugin-less';
 
 import pkg from './package.json';
-
 const root = process.cwd();
 
 export default defineConfig({
@@ -13,7 +12,30 @@ export default defineConfig({
   root: 'docs',
   outDir: 'dist',
   plugins: [
-    pluginPreview(),
+    pluginPreview({
+      previewMode: 'iframe',
+      iframeOptions: {
+        devPort: 9084,
+        builderConfig: {
+          resolve: {
+            alias: {
+              [pkg.name]: resolve(root, pkg.main),
+            },
+          },
+          plugins: [
+            pluginPreact()
+          ],
+        },
+      },
+      // previewLanguages: ['tsx', 'ts', 'jsx', 'js',...repressPluginPreact.language],
+      // previewCodeTransform(codeInfo) {
+      //   let content = repressPluginPreact.previewCodeTransform(codeInfo);
+      //   if (content) {
+      //     return content;
+      //   }
+      //   return codeInfo.code
+      // },
+    }),
   ],
   builderConfig: {
     resolve: {
@@ -26,7 +48,6 @@ export default defineConfig({
     },
     plugins: [
       pluginLess(),
-      pluginPreact(),
     ],
     server: {
       port: 9080,
