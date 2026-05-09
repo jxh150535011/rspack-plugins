@@ -2,6 +2,7 @@ import { resolve } from 'path';
 import { defineConfig } from 'rspress/config';
 import { pluginPreview } from '@rspress/plugin-preview';
 import { pluginPreact } from '@rsbuild/plugin-preact';
+import { pluginLess } from '@rsbuild/plugin-less';
 
 import pkg from './package.json';
 
@@ -24,6 +25,7 @@ export default defineConfig({
       define: {},
     },
     plugins: [
+      pluginLess(),
       pluginPreact(),
     ],
     server: {

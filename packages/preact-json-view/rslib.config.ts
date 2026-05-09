@@ -1,10 +1,17 @@
 import { defineConfig } from '@rslib/core';
 import { pluginPreact } from '@rsbuild/plugin-preact';
+import { pluginLess } from '@rsbuild/plugin-less';
 
 export default defineConfig({
   plugins: [
     pluginPreact(),
+    pluginLess(),
   ],
+  source: {
+    entry: {
+      index: ['./src/**', '!**/.DS_Store'],
+    }
+  },
   lib: [
     {
       format: 'esm',
@@ -28,4 +35,11 @@ export default defineConfig({
       },
     },
   ],
+  output: {
+    target: 'web',
+    cssModules: {
+      exportLocalsConvention: 'asIs',
+      localIdentName: 'pjv-[local]'
+    }
+  },
 });

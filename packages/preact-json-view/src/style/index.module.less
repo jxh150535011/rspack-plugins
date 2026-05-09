@@ -1,0 +1,121 @@
+.container {
+  font-family: var(--w---pjv-font-family, monospace);
+  background-color: var(--w---pjv-background-color, #1e1e1e);
+  color: var(--w---pjv-color, #9cdcfe);
+  padding: 16px;
+  border-radius: 4px;
+  overflow: auto;
+  max-height: 100%;
+}
+
+.tree {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.--pjv-node {
+  position: relative;
+}
+
+.--pjv-node__line {
+  display: flex;
+  align-items: center;
+  min-height: 20px;
+  cursor: pointer;
+}
+
+.--pjv-node__line:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.--pjv-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  margin-right: 4px;
+  color: var(--w---pjv-arrow-color, #838383);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.--pjv-arrow--expanded {
+  transform: rotate(90deg);
+}
+
+.--pjv-arrow svg {
+  width: 10px;
+  height: 10px;
+  fill: currentColor;
+}
+
+.--pjv-key {
+  color: var(--w---pjv-key-string, #9cdcfe);
+  margin-right: 4px;
+}
+
+.--pjv-colon {
+  color: var(--w---pjv-colon-color, #d4d4d4);
+  margin-right: 4px;
+}
+
+.--pjv-braces {
+  color: var(--w---pjv-curlybraces-color, #d4d4d4);
+}
+
+.--pjv-brackets {
+  color: var(--w---pjv-brackets-color, #d4d4d4);
+}
+
+.--pjv-quotes {
+  color: var(--w---pjv-quotes-color, #9cdcfe);
+}
+
+.--pjv-value--string {
+  color: var(--w---pjv-type-string-color, #ce9178);
+}
+
+.--pjv-value--number {
+  color: var(--w---pjv-type-int-color, #b5cea8);
+}
+
+.--pjv-value--boolean {
+  color: var(--w---pjv-type-boolean-color, #569cd6);
+}
+
+.value--null {
+  color: var(--w---pjv-type-null-color, #569cd6);
+}
+
+.--pjv-value--undefined {
+  color: var(--w---pjv-type-undefined-color, #569cd6);
+}
+
+.--pjv-value--nan {
+  color: var(--w---pjv-type-nan-color, #859900);
+}
+
+.--pjv-children {
+  padding-left: 18px;
+  border-left: 1px solid var(--w---pjv-line-color, #36334280);
+  margin-left: 4px;
+}
+
+.--pjv-expand-more {
+  color: var(--w---pjv-info-color, #9c9c9c7a);
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.--pjv-expand-more:hover {
+  color: var(--w---pjv-color, #9cdcfe);
+}
+
+.--pjv-info {
+  color: var(--w---pjv-info-color, #9c9c9c7a);
+  font-size: 12px;
+  margin-left: 4px;
+}
