@@ -17,7 +17,8 @@
   },
   "dependencies": {
     "lodash-es": "^4.17.21",
-    "preact": "^10.29.1"
+    "preact": "^10.29.1",
+    "preact-virtual-list": "^0.3.1"
   },
   "peerDependencies": {
 
@@ -38,7 +39,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "@types/react": "^18.2.14",
-    "@types/react-dom": "^18.2.14"
+    "@types/react-dom": "^18.2.14",
+    "@types/preact-virtual-list": "^0.3.1"
   },
   "sideEffects": false
 }

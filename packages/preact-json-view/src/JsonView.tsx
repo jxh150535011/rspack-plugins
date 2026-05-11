@@ -1,192 +1,96 @@
-import { useState, useEffect } from 'preact/hooks';
+import { useState, useEffect, useRef } from 'preact/hooks';
 import { vscodeTheme } from './theme';
+import VirtualList from 'preact-virtual-list';
 import './style/index.less';
+import { useMemo } from 'react';
+import { TreeNode } from './utils';
 
 interface JsonViewProps {
-  data: unknown;
-  theme?: any;
-  initialExpanded?: boolean;
-  expandDepth?: number;
-  maxItems?: number;
+  value: any;
 }
 
-interface TreeNode {
-  key: string | null;
-  value: unknown;
-  type: string;
-  expanded: boolean;
-  children?: TreeNode[];
+export interface TreeNodeViewProps {
+  node: TreeNode;
+  onClick: (node: TreeNode) => void;
 }
 
-const MAX_ITEMS = 100;
+export const TreeNodeView = (props: TreeNodeViewProps) => {
+  const { node, onClick } = props;
 
-// function getType(value: any) {
-//   if (value === null) return 'null';
-//   if (value === undefined) return 'undefined';
-//   if (Array.isArray(value)) return 'array';
-//   if (typeof value === 'object') return 'object';
-//   if (typeof value === 'number') {
-//     if (Number.isInteger(value)) return 'int';
-//     if (Number.isNaN(value)) return 'nan';
-//     return 'float';
-//   }
-//   if (typeof value === 'bigint') return 'bigint';
-//   return typeof value;
-// }
+  const className = [
+    'pjv-node',
+    node.leaf ? 'leaf' : '',
+    node.expanded ? 'expanded' : '',
+    node.depth ? '' : 'root',
+  ].join(' ');
 
-// function buildTree(value: any, key: string | null, depth: number, maxDepth: number) {
-//   const type = getType(value);
-//   let children;
+  const handleClick = () => {
+    onClick?.(node);
+  }
 
-//   if ((type === 'array' || type === 'object') && depth < maxDepth) {
-//     const items = type === 'array' ? value : Object.entries(value);
-//     children = items.map((item: any[] | string, index: number) => {
-//       const itemKey = type === 'array' ? String(index) : item[0];
-//       const itemValue = type === 'array' ? item : item[1];
-//       return buildTree(itemValue, itemKey, depth + 1, maxDepth);
-//     });
-//   }
+  return (
+    <div className={className} style={{'--var-depth': node.depth}} onClick={handleClick}>
+      <div className="pjv-node__line">
+        {node.view}
+      </div>
+    </div>
+  )
+}
 
-//   return {
-//     key,
-//     value,
-//     type,
-//     expanded: depth === 0,
-//     children,
-//   };
-// }
 
-// function renderValue(value: any, type: string) {
-//   switch (type) {
-//     case 'string': {
-//       const strValue = String(value);
-//       if (strValue.length > 100) {
-//         return (
-//           <span className=\"rjv-value rjv-value--string\">
-//             <span className=\"rjv-quotes\">\"</span>
-//             {strValue.slice(0, 100)}...
-//             <span className=\"rjv-quotes\">\"</span>
-//           </span>
-//         );
-//       }
-//       return (
-//         <span className=\"rjv-value rjv-value--string\">
-//           <span className=\"rjv-quotes\">\"</span>
-//           {strValue}
-//           <span className=\"rjv-quotes\">\"</span>
-//         </span>
-//       );
-//     }
-//     case 'int':
-//     case 'float':
-//     case 'bigint':
-//       return <span className=\"rjv-value rjv-value--number\">{String(value)}</span>;
-//     case 'boolean':
-//       return <span className=\"rjv-value rjv-value--boolean\">{String(value)}</span>;
-//     case 'null':
-//       return <span className=\"rjv-value rjv-value--null\">null</span>;
-//     case 'undefined':
-//       return <span className=\"rjv-value rjv-value--undefined\">undefined</span>;
-//     case 'nan':
-//       return <span className=\"rjv-value rjv-value--nan\">NaN</span>;
-//     case 'array':
-//       return <span className=\"rjv-brackets\">[{(value || []).length}]</span>;
-//     case 'object':
-//       return <span className=\"rjv-braces\">{{Object.keys(value).length}}</span>;
-//     default:
-//       return <span>{String(value)}</span>;
-//   }
-// }
+export interface TreeViewProps {
+  root: TreeNode;
+  refreshKey: number;
+  onNodeClick: (node: TreeNode) => void;
+}
 
-// function TreeItem({ node, depth, maxDepth, maxItems, onToggle }) {
-//   const [displayCount, setDisplayCount] = useState(Math.min(node.children?.length || 0, maxItems));
-//   const hasMore = (node.children?.length || 0) > displayCount;
+export const TreeView = (props: TreeViewProps) => {
+  const { root, refreshKey, onNodeClick } = props;
+  const handleNodeClick = (node: TreeNode) => {
+    onNodeClick(node);
+  }
 
-//   const handleLineClick = () => {
-//     if (node.children && depth < maxDepth) {
-//       onToggle(node);
-//     }
-//   };
+  const nodeViews = useMemo(() => {
+    const nodes = root.getNodes();
+    return nodes.map(node => {
+      return <TreeNodeView key={node.key} node={node} onClick={handleNodeClick} />
+    })
+  }, [root, refreshKey])
 
-//   const handleExpandMore = () => {
-//     setDisplayCount(node.children?.length || 0);
-//   };
+  return (
+    <div className="pjv-tree">
+      {nodeViews}
+    </div>
+  )
+}
 
-//   return (
-//     <li className=\"rjv-node\">
-//       <div className=\"rjv-node__line\" onClick={handleLineClick}>
-//         {node.children && depth < maxDepth && (
-//           <span className={`rjv-arrow ${node.expanded ? 'rjv-arrow--expanded' : ''}`}>
-//             <svg viewBox=\"0 0 24 24\">
-//               <path d=\"M7 10l5 5 5-5H7z\" />
-//             </svg>
-//           </span>
-//         )}
-//         {node.key !== null && (
-//           <>
-//             <span className=\"rjv-key\">\"{node.key}\"</span>
-//             <span className=\"rjv-colon\">:</span>
-//           </>
-//         )}
-//         {!node.children || depth >= maxDepth ? (
-//           renderValue(node.value, node.type)
-//         ) : (
-//           <>
-//             {node.type === 'array' ? (
-//               <span className=\"rjv-brackets\">[</span>
-//             ) : (
-//               <span className=\"rjv-braces\">{`{`}</span>
-//             )}
-//             <span className=\"rjv-info\">
-//               {node.type === 'array' ? 'Array' : 'Object'} ({node.children.length})
-//             </span>
-//             {node.type === 'array' ? (
-//               <span className=\"rjv-brackets\">]</span>
-//             ) : (
-//               <span className=\"rjv-braces\">{`}`}</span>
-//             )}
-//           </>
-//         )}
-//       </div>
-//       {node.expanded && node.children && depth < maxDepth && (
-//         <ul className=\"rjv-children\">
-//           {node.children.slice(0, displayCount).map((child, index) => (
-//             <TreeItem
-//               key={`${node.key || 'root'}-${index}`}
-//               node={child}
-//               depth={depth + 1}
-//               maxDepth={maxDepth}
-//               maxItems={maxItems}
-//               onToggle={onToggle}
-//             />
-//           ))}
-//           {hasMore && (
-//             <li className=\"rjv-expand-more\" onClick={handleExpandMore}>
-//               ... ({(node.children.length - displayCount)} more items)
-//             </li>
-//           )}
-//         </ul>
-//       )}
-//     </li>
-//   );
-// }
+
 
 export function JsonView(props: JsonViewProps) {
-  const { data, theme = {}, initialExpanded = true, expandDepth = Infinity, maxItems = MAX_ITEMS } = props;
-  const [tree, setTree] = useState(null);
+  const { value } = props;
+  const [refreshKey, setRefreshKey] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const root = useRef<TreeNode>(new TreeNode(value));
+  useEffect(() => {
+    const $container = containerRef.current;
+    if (!$container) {
+      return;
+    }
+    Object.entries(vscodeTheme).forEach(([key, value]) => {
+      $container.style.setProperty(key, value);
+    });
+  }, []);
+
+
+  const handleNodeClick  = (node: TreeNode) => {
+    node.expand(!node.expanded)
+    setRefreshKey(refreshKey + 1);
+  }
+
 
   // useEffect(() => {
-  //   const mergedTheme = { ...vscodeTheme, ...theme };
-  //   const root = document.documentElement;
-  //   Object.entries(mergedTheme).forEach(([key, value]) => {
-  //     root.style.setProperty(key, value);
-  //   });
-  //   return () => {
-  //     Object.keys(mergedTheme).forEach((key) => {
-  //       root.style.removeProperty(key);
-  //     });
-  //   };
-  // }, [theme]);
+
+  // }, [data, expandDepth]);
 
   // useEffect(() => {
   //   setTree(buildTree(data, null, 0, expandDepth));
@@ -209,21 +113,22 @@ export function JsonView(props: JsonViewProps) {
   // };
 
   return (
-    <div className="pjv-container">
-      Hello World
-      {tree ? (
-        <ul className="pjv-tree">
-          {/* <TreeItem
-            node={tree}
-            depth={0}
-            maxDepth={expandDepth}
-            maxItems={maxItems}
-            onToggle={handleToggle}
-          /> */}
-        </ul>
-      ) : (
-        <span className="pjv-value pjv-value--null">null</span>
-      )}
+    <div className="pjv-container" ref={containerRef}>
+      <TreeView
+        root={root.current}
+        refreshKey={refreshKey}
+        onNodeClick={handleNodeClick}
+      />
+      {/* <VirtualList
+        sync={true}
+        data={value}
+        rowHeight={16}
+        renderRow={({ item }) => (
+          <div className="pjv-item" key={item}>
+            {item}
+          </div>
+        )}
+      /> */}
     </div>
   );
 }

@@ -75,6 +75,9 @@ importers:
       preact:
         specifier: ^10.29.1
         version: 10.29.1
+      preact-virtual-list:
+        specifier: ^0.3.1
+        version: 0.3.1(preact@10.29.1)
     devDependencies:
       '@rsbuild/plugin-less':
         specifier: ^1.6.3
@@ -100,6 +103,9 @@ importers:
       '@types/node':
         specifier: ^22.18.10
         version: 22.19.3
+      '@types/preact-virtual-list':
+        specifier: ^0.3.1
+        version: 0.3.4
       '@types/react':
         specifier: ^18.2.14
         version: 18.3.27
@@ -1647,6 +1653,9 @@ packages:
 
   '@types/parse5@6.0.3':
     resolution: {integrity: sha512-SuT16Q1K51EAVPz1K29DJ/sXjhSQ0zjvsypYJ6tlwVsRV9jwW5Adq2ch8Dq8kDBCkYnELS7N7VNCSB5nC56t/g==}
+
+  '@types/preact-virtual-list@0.3.4':
+    resolution: {integrity: sha512-g0aOzrDkLsg4slKyBJ9HOK7WllTxiMk48iGeqgLkQE95OC7xDckhbVibMViF3jYhqBXWqu6DZH9cOyKc6BLbMQ==}
 
   '@types/prop-types@15.7.15':
     resolution: {integrity: sha512-F6bEyamV9jKGAFBEmlQnesRPGOQqS2+Uwi0Em15xenOxHaf2hv6L8YCVn3rPdPJOiJfPiCnLIRyvwVaqMY3MIw==}
@@ -3342,6 +3351,11 @@ packages:
   postcss@8.5.6:
     resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
     engines: {node: ^10 || ^12 || >=14}
+
+  preact-virtual-list@0.3.1:
+    resolution: {integrity: sha512-Ep1/gZWT061t8nH7EJcwMR6LPld+CabXkNyA4tJ4lv+5BjawuutWbbe+Gcr1dxPxQIYD34SS/xR7XvJ9GD4Ayw==}
+    peerDependencies:
+      preact: '*'
 
   preact@10.29.1:
     resolution: {integrity: sha512-gQCLc/vWroE8lIpleXtdJhTFDogTdZG9AjMUpVkDf2iTCNwYNWA+u16dL41TqUDJO4gm2IgrcMv3uTpjd4Pwmg==}
@@ -5772,6 +5786,10 @@ snapshots:
 
   '@types/parse5@6.0.3': {}
 
+  '@types/preact-virtual-list@0.3.4':
+    dependencies:
+      preact: 10.29.1
+
   '@types/prop-types@15.7.15': {}
 
   '@types/react-dom@18.3.7(@types/react@18.3.27)':
@@ -7774,6 +7792,10 @@ snapshots:
       nanoid: 3.3.11
       picocolors: 1.1.1
       source-map-js: 1.2.1
+
+  preact-virtual-list@0.3.1(preact@10.29.1):
+    dependencies:
+      preact: 10.29.1
 
   preact@10.29.1: {}
 
