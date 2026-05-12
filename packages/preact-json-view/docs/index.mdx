@@ -33,3 +33,28 @@ export default () => {
 }
 
 ```
+
+
+```tsx
+import { JsonView } from 'preact-json-view';
+const json = [1, 2, 'hello', 'world', Number];
+
+export default () => {
+  return (
+    <JsonView value={json} />
+  )
+}
+
+```
+
+```tsx
+import { JsonView } from 'preact-json-view';
+const json = 'Hello World';
+
+export default () => {
+  return (
+    <JsonView value={json} />
+  )
+}
+
+```

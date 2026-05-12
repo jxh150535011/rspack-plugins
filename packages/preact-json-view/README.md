@@ -1,10 +1,12 @@
 # preact-json-viewer
 
-基于Preact的JSON查看器
+基于Preact的JSON查看器，风格仿照 Chrome DevTools，支持大对象/数组的延迟渲染与常见 JavaScript 字面量的友好展示。
 
 ```bash
 pnpm install preact-json-viewer
 ```
+
+## 示例
 
 ```tsx
 import { JsonViewer } from 'preact-json-viewer';
@@ -37,10 +39,13 @@ const json = {
 <JsonViewer json={json} />
 
 ```
+
+## 特性
+
 - 基于preact 框架渲染
-- 样式仿造chrome devtools 中的json查看器
-- 延迟渲染，意味着可以显示对象或数组
-- 支持部分JavaScript字面量显示成原始值
+- 仿 Chrome DevTools 样式，开发体验友好
+- 延迟渲染，支持显示大型对象或数组
+- 支持常见 JavaScript 字面量展示为原始值，包括：
   - String
   - Number、BigInt
   - Boolean
@@ -48,7 +53,8 @@ const json = {
   - RegExp
 
 
-- 暂不支持
-  - 暂不支持展开超大对象或数组
-  - 暂不支持Map等类型展开
-  - 暂不支持对于new Number、new Object 等JavaScript进行原始对象区分（全部转换为单值 toString()）
+## 当前限制
+
+- 暂不支持展开超大对象或数组
+- 暂不支持Map等类型展开
+- 暂不支持对于new Number、new Object 等JavaScript进行原始对象区分（全部转换为单值 toString()）

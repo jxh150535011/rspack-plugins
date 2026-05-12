@@ -15,6 +15,7 @@
     "dev": "rslib build --watch"
   },
   "dependencies": {
+    "micromatch":"^4.0.0"
   },
   "peerDependencies": {
 
@@ -22,7 +23,8 @@
   "devDependencies": {
     "@rslib/core": "^0.15.1",
     "@types/node": "^22.18.10",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "@types/micromatch": "^4.0.10"
   },
   "sideEffects": false
 }
