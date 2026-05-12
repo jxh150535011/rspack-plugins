@@ -1,15 +1,15 @@
-# preact-json-viewer
+# preact-tiny-json-view
 
 A Preact-based JSON viewer with Chrome DevTools-like styling. Supports lazy rendering for large objects/arrays and friendly display of common JavaScript literals.
 
 ```bash
-pnpm install preact-json-viewer
+pnpm install preact-tiny-json-view
 ```
 
 ## Example
 
 ```tsx
-import { JsonViewer } from 'preact-json-viewer';
+import { JsonViewer } from 'preact-tiny-json-view';
 
 const arrayn = new Array(400).fill(1);
 const json = {

@@ -1,15 +1,15 @@
-# preact-json-viewer
+# preact-tiny-json-view
 
 基于Preact的JSON查看器，风格仿照 Chrome DevTools，支持大对象/数组的延迟渲染与常见 JavaScript 字面量的友好展示。
 
 ```bash
-pnpm install preact-json-viewer
+pnpm install preact-tiny-json-view
 ```
 
 ## 示例
 
 ```tsx
-import { JsonViewer } from 'preact-json-viewer';
+import { JsonViewer } from 'preact-tiny-json-view';
 
 const arrayn = new Array(400).fill(1);
 const json = {

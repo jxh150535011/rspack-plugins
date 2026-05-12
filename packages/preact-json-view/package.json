@@ -1,5 +1,5 @@
 {
-  "name": "preact-json-view",
+  "name": "preact-tiny-json-view",
   "version": "1.0.0",
   "type": "module",
   "main": "./src/index.ts",
@@ -9,6 +9,12 @@
     "cjs",
     "esm",
     "types"
+  ],
+  "description": "A lightweight JSON viewer for Preact",
+  "keywords": [
+    "preact",
+    "json-view",
+    "tiny"
   ],
   "scripts": {
     "doc": "rspress dev",
