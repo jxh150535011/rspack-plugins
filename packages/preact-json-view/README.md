@@ -1,15 +1,15 @@
 # preact-tiny-json-view
 
-基于Preact的JSON查看器，风格仿照 Chrome DevTools，支持大对象/数组的延迟渲染与常见 JavaScript 字面量的友好展示。
+A Preact-based JSON viewer with Chrome DevTools-like styling. Supports lazy rendering for large objects/arrays and friendly display of common JavaScript literals.
 
 ```bash
 pnpm install preact-tiny-json-view
 ```
 
-## 示例
+## Example
 
 ```tsx
-import { JsonViewer } from 'preact-tiny-json-view';
+import { JsonView } from 'preact-tiny-json-view';
 
 const arrayn = new Array(400).fill(1);
 const json = {
@@ -36,16 +36,17 @@ const json = {
   regExp: /hello/,
 };
 
-<JsonViewer json={json} />
+<JsonView json={json} />
 
 ```
+![img](https://github.com/user-attachments/assets/80f2b0ef-2827-440a-a857-988b2bb16dbf)
 
-## 特性
+## Features
 
-- 基于preact 框架渲染
-- 仿 Chrome DevTools 样式，开发体验友好
-- 延迟渲染，支持显示大型对象或数组
-- 支持常见 JavaScript 字面量展示为原始值，包括：
+- Built with Preact, lightweight and performant
+- Chrome DevTools-inspired styling for better developer experience
+- Lazy rendering to support large objects or arrays
+- Displays common JavaScript literals as primitive values, including:
   - String
   - Number、BigInt
   - Boolean
@@ -53,8 +54,8 @@ const json = {
   - RegExp
 
 
-## 当前限制
+## Current Limitations
 
-- 暂不支持展开超大对象或数组
-- 暂不支持Map等类型展开
-- 暂不支持对于new Number、new Object 等JavaScript进行原始对象区分（全部转换为单值 toString()）
+- Cannot expand extremely large objects or arrays
+- Does not support expanding types like Map
+- Wrapper objects like new Number or new Object are not distinguished;
