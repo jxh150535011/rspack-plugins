@@ -1,8 +1,7 @@
-import { useState, useEffect, useRef } from 'preact/hooks';
+import { useState, useEffect, useRef, useMemo } from 'preact/hooks';
 import { vscodeTheme } from './theme';
 import VirtualList from 'preact-virtual-list';
 import './style/index.less';
-import { useMemo } from 'react';
 import { TreeNode } from './utils';
 
 interface JsonViewProps {
