@@ -1,0 +1,368 @@
+
+/** 基础组件 */
+
+/** 按钮 */
+.__vm_button {
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-size: 12px;
+  border: 1px solid var(--var-color);
+  background: var(--var-color-2);
+  color: var(--var-color);
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 16px;
+  &:not(.disabled):hover {
+    background: var(--var-active-background-color);
+    color: var(--var-active-color);
+    border-color: var(---var-active-background-color);
+  }
+}
+.__vm_button.primary {
+  background: var(--var-active-border-color);
+  color: var(--var-active-color);
+  border-color: var(--var-active-border-color);
+  &:not(.disabled):hover {
+    background: var(--var-active-border-color-2);
+    color: var(--var-active-color);
+    border-color: var(--var-active-border-color-2);
+  }
+}
+
+.__vm_button.primary.disabled {
+  opacity: 0.4;
+}
+
+.__vm_button.small {
+  padding: 1px 2px;
+  line-height: 16px;
+}
+
+.__vm_button.medium {
+  padding: 3px 6px;
+}
+
+.__vm_button.large {
+  padding: 4px 8px;
+}
+
+
+.__vm_input {
+  border-radius: 8px;
+  font-size: 12px;
+  position: relative;
+  background: var(--var-color-2);
+  color: var(--var-active-color);
+  border: 1px solid var(--var-color-2);
+  box-sizing: border-box;
+
+  input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    z-index: 2;
+    font-size: 12px;
+    background: var(--var-color-2);
+  }
+  .__vm_input_placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: left;
+    z-index: 1;
+  }
+  &:focus,
+  &:focus-within {
+    border-color: var(--var-active-border-color);
+  }
+}
+.__vm_input.small {
+  font-size: 12px;
+  padding: 0 6px;
+  line-height: 14px;
+  height: 18px;
+  input {
+    line-height: 14px;
+  }
+  .__vm_input_placeholder {
+    font-size: 12px;
+    padding: 0 7px;
+    line-height: 16px;
+  }
+}
+/** 弹层 */
+.__vm_modal_wrapper {
+
+}
+.__vm_modal_mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9002;
+}
+.__vm_modal {
+  position: fixed;
+  top: auto;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 80vh;
+  width: 100%;
+  z-index: 9003;
+  background: #fff;
+}
+
+body.__vm_modal--visible {
+  overflow: hidden;
+}
+
+/** toast */
+.__vm_toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 20px;
+  border-radius: 4px;
+  background: var(--var-color-2);
+  color: var(--var-active-color);
+  z-index: 9004;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  padding: 4px;
+  font-size: 12px;
+  line-height: 18px;
+}
+.__vm_toast.visible {
+  opacity: 1;
+}
+
+
+
+/** tab */
+/** tab 标签区域 */
+.__vm_tabs {
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 29px;
+  width: auto;
+  white-space: nowrap;
+  background: var(--var-color-2);
+  font-weight: bold;
+  border-bottom: 1px solid var(--var-divider-color);
+  flex: 0 0 29px;
+  &::-webkit-scrollbar {
+    height: 1px;
+  }
+}
+.__vm_tab {
+  display: inline-block;
+  line-height: 26px;
+  padding: 0 15px;
+  text-decoration: none;
+  color: var(--var-color);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  border-bottom: 2px solid var(--var-color-2);
+  &:hover {
+    background: var(--var-color-3);
+    color: var(--var-active-color);
+  }
+  flex: 0 0 auto;
+}
+.__vm_tab.active {
+  background: var(--var-color-3);
+  color: var(--var-active-color);
+  border-bottom: 2px solid var(--var-active-border-color);
+}
+
+.__vm_tabs.subtab {
+  padding: 4px;
+  background: var(--var-color-1);
+  .__vm_tab {
+    padding: 2px 6px;
+    border-bottom: none;
+    height: 20px;
+    line-height: 14px;
+    border-radius: 4px;
+    margin-right: 4px;
+    border: 1px solid var(--var-color);
+  }
+  .__vm_tab.active {
+    border-bottom: none;
+    background: var(--var-active-border-color-2);
+    color: var(--var-active-color);
+    border: 1px solid var(--var-active-border-color-2);
+  }
+}
+
+/** table */
+.__vm_table {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  
+  .__vm_table_inner {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+    --var-line-height: var(--var-row-height);
+  }
+  .__vm_tr {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: var(--var-color-1);
+    box-sizing: border-box;
+  }
+  .__vm_thead {
+    flex: 0 0 auto;
+    font-weight: bolder;
+  }
+  .__vm_tbody {
+    flex: 1 1 auto;
+    overflow: auto;
+
+    .__vm_tr:nth-child(2n) {
+      background: var(--var-color-0);
+    }
+    .__vm_tr {
+      &:hover {
+        background: var(--var-color-3);
+      }
+    }
+    .__vm_tr.active {
+      background: var(--var-active-border-color-2);
+      color: var(--var-active-color);
+    }
+   }
+  .__vm_td {
+    flex: 0 0 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 2px;
+    border-radius: 2px;
+    height: var(--var-row-height);
+    line-height: var(--var-line-height);
+    box-sizing: border-box;
+  }
+  &.bordered {
+    .__vm_table_inner {
+      --var-line-height: calc(var(--var-row-height) - 1px);
+      border: 1px solid var(--var-divider-color);
+    }
+    .__vm_td {
+      border-right: 1px solid var(--var-divider-color);
+    }
+    .__vm_thead {
+      .__vm_tr {
+        border-bottom: 1px solid var(--var-divider-color);
+      }
+    }
+  }
+}
+
+/** 手风琴组件 */
+.__vm_collapse {
+  display: flex;
+  flex-direction: column;
+}
+.__vm_collapse_item {
+  display: flex;
+  flex-direction: column;
+  
+}
+.__vm_collapse_item__body {
+  display: none;
+  flex: 1 1 auto;
+  padding: 4px 10px;
+}
+
+.__vm_collapse_item__header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 24px;
+  line-height: 23px;
+  border-bottom: 1px solid var(--var-divider-color);
+  padding-left: 10px;
+  flex: 0 0 auto;
+  font-weight: bolder;
+  color: var(--var-active-color);
+  .__vm_collapse_item__header_expand {
+    width: 0;
+    height: 0;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 6px solid #fff;
+    margin-right: 4px;
+  }
+  &:hover {
+    background: var(--var-color-3);
+  }
+}
+
+.__vm_collapse_item.active {
+  .__vm_collapse_item__body {
+    display: block;
+  }
+  .__vm_collapse_item__header_expand {
+    transform: rotate(90deg);
+  }
+}
+/** 描述组件 */
+.__vm_descriptions {
+  display: flex;
+  flex-direction: column;
+  .__vm_descriptions_item {
+    display: flex;
+    flex-direction: row;
+    padding: 2px 0;
+  }
+  .__vm_descriptions_item_label {
+    flex: 0 0 120px;
+    text-align: left;
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+  .__vm_descriptions_item_value {
+    flex: 1 1 auto;
+    color: var(--var-active-color);
+    text-align: left;
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+}
+
+
+/** 列表组件 */
+
+.__vm_list {
+  display: flex;
+  flex-direction: column;
+  .__vm_list_item {
+    margin: 2px 0;
+    padding: 2px 4px 2px 4px;
+    word-break: break-word;
+    white-space: pre-wrap;
+    position: relative;
+    border-radius: 4px;
+    min-height: 20px;
+    &:hover {
+      background: var(--var-color-3);
+    }
+  }
+  .__vm_list_item_label {
+    font-weight: bolder;
+    color: var(--var-active-color);
+  }
+}
+
+

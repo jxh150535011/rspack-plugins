@@ -1,0 +1,28 @@
+# 开始
+
+```tsx
+import { startMonitor } from 'web-dev-tools';
+
+
+startMonitor({
+  // 开启dbeug
+  debug: true,
+  // 开启白屏监控
+  whiteScreen: {
+    root: '#root',
+    placeholder: '白屏了',
+  },
+  // 如有需要部署上报服务
+  // endpoint: 'http://localhost:3000',
+});
+
+
+export default () => {
+
+  return (
+    <div>开启监控</div>
+  )
+}
+
+```
+

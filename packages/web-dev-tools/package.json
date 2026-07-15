@@ -1,0 +1,63 @@
+{
+  "name": "web-dev-tools",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "module": "./src/index.ts",
+  "files": [
+    "esm",
+    "types",
+    "web"
+  ],
+  "description": "A lightweight debugging panel featuring a Chrome DevTools-inspired UI. It supports data reporting and allows reported data to be forwarded to a backend interface for in-depth analysis.",
+  "keywords": [
+    "console",
+    "web",
+    "viax",
+    "vitals",
+    "dev",
+    "tools",
+    "dev-tools"
+  ],
+  "scripts": {
+    "doc": "rspress dev",
+    "build:umd": "rsbuild build",
+    "build": "rslib build && npm run build:umd",
+    "dev": "rsbuild dev"
+  },
+  "dependencies": {
+    "lodash-es": "^4.17.21",
+    "preact": "^10.29.1",
+    "preact-virtual-list": "^0.3.1",
+    "preact-tiny-json-view": "1.0.3",
+    "htm": "^3.1.1",
+    "uuid": "^14.0.0"
+  },
+  "peerDependencies": {
+
+  },
+  "devDependencies": {
+    "@rsbuild/core": "^1.7.1",
+    "@rslib/core": "^0.15.1",
+    "@types/node": "^22.18.10",
+    "typescript": "^5.9.3",
+    "@types/lodash-es": "^4.17.8",
+    "@rsbuild/plugin-preact": "^1.7.3",
+    "@rsbuild/plugin-less": "^1.6.3",
+
+    "rspress": "^1.47.1",
+    "@rspress/shared": "^1.47.1",
+    "@rspress/core": "^1.47.1",
+    "@rspress/plugin-preview": "^1.47.1",
+    "core-js": "^3.49.0",
+
+
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@types/react": "^18.2.14",
+    "@types/react-dom": "^18.2.14",
+    "@types/preact-virtual-list": "^0.3.1"
+  },
+  "sideEffects": false
+}

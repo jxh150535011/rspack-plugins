@@ -1,0 +1,295 @@
+.__vm {
+  // 内容底色（深）
+  --var-color-0: #1f1f1f;
+  // 内容底色（默认）
+  --var-color-1: #282828;
+  // 标题基色
+  --var-color-2: #3c3c3c;
+  // 轻级高粱
+  --var-color-3: #4f4f4f;
+
+  --var-divider-color: #515151;
+
+  --var-color: #c7c7c7;
+  --var-error-color: #ffb4ab;
+  --var-error-active-color: #4b3635;
+
+  --var-active-color: #f3f0f0;
+  --var-active-background-color: #4f4f4f;
+  --var-active-border-color: #ff6c0e;
+  --var-active-border-color-2: #d08c62;
+
+
+
+  & * {
+    box-sizing: border-box;
+  }
+}
+
+/** 业务模块 */
+
+.__vm_debug-panel {
+
+  font-size: 12px;
+  font-weight: 600;
+  width: 100%;
+  height: 100%;
+  background: var(--var-color-1);
+  color: var(--var-color);
+  display: flex;
+  flex-direction: column;
+
+  /** 内容区域 */
+  .__vm_debug-panel__content {
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+
+  /** 默认选项列表 */
+  .__vm_list.default {
+    padding: 4px;
+    .__vm_list_item {
+      border-bottom: 1px solid var(--var-divider-color);
+    }
+  }
+  .__vm_list.console {
+    padding: 4px;
+    .__vm_list_item {
+      padding: 2px 4px 2px 20px;
+      &.warn {
+        background: #555035;
+      }
+      &.warn:hover {
+        background: #6c6749;
+      }
+
+      &.error {
+        background: #4e3634;
+      }
+      &.error:hover {
+        background: #916b67;
+      }
+
+      &.error::before {
+        content: '❗️';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+      }
+      &.warn::before {
+        content: '⚠️';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+      }
+    }
+  }
+
+}
+/** 控制台面板 */
+.__vm_debug-console-panel {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  .__vm_debug-console-panel_toolbar {
+    flex: 0 0 auto;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--var-divider-color);
+  }
+  .__vm_list {
+    flex: 1 1 auto;
+  }
+}
+
+/** 网络调试面板 */
+.__vm_debug-netowrk-panel {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  .__vm_table {
+    flex: 1 1 auto;
+    .__vm_tr-error {
+      color: var(--var-error-color);
+    }
+    .__vm_tr-error.active {
+      background: var(--var-error-active-color);
+    }
+  }
+  .__vm_debug-netowrk-panel_toolbar {
+    flex: 0 0 auto;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 4px;
+  }
+}
+.__vm_debug-netowrk-panel-modal {
+  font-size: 12px;
+  font-weight: 600;
+  width: 100%;
+  height: 100%;
+  background: var(--var-color-1);
+  color: var(--var-color);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  .__vm_debug-netowrk-panel__content {
+    height: 100%;
+    flex: 1 1 auto;
+    overflow: hidden;
+  }
+  .__vm_debug-netowrk-panel__toolbar {
+    height: 28px;
+    flex: 0 0 auto;
+    border-top: 1px solid var(--var-divider-color);
+    background: var(--var-color-1);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    padding: 0 32px;
+  }
+  .__vm_debug-netowrk-panel__content_response {
+    height: 100%;
+    padding: 8px;
+    overflow: auto;
+  }
+  .pjv-container {
+    overflow: visible;
+  }
+}
+
+.__vm_debug-application-panel {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+.__vm_debug-application-panel_menu {
+  flex: 0 0 120px;
+  width: 120px;
+  overflow-y: auto;
+  position: relative;
+
+  padding-right: 4px;
+
+  & > ::after {
+    position: absolute;
+    content: ' ';
+    display: block;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 1px;
+    height: 100%;
+    background: var(--var-divider-color);
+  }
+
+  .__vm_menu_item {
+    padding: 0 6px;
+    line-height: 24px;
+    border-radius: 0 8px 8px 0;
+  }
+  .__vm_menu_item_level_0 {
+    font-weight: bolder;
+    color: var(--var-active-color);
+  }
+  .__vm_menu_item_level_1:hover {
+    background: var(--var-active-border-color-2);
+    color: var(--var-active-color);
+  }
+  .__vm_menu_item_level_1.active {
+    background: var(--var-active-border-color);
+    color: var(--var-active-color);
+  }
+}
+.__vm_debug-application-panel_content {
+  flex: 1 1 auto;
+  height: 100%;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+  
+  .__vm_table {
+    flex: 1 1 auto;
+    overflow: auto;
+  }
+  .__vm_debug-application-panel_toolbar {
+    flex: 0 0 auto;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 4px;
+  }
+  .__vm_debug-application-panel_preview {
+    flex: 0 0 40%;
+    overflow: auto;
+    position: relative;
+    padding: 4px;
+    width: 100%;
+    .__vm_debug-application-panel_preview_empty {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 12px;
+      line-height: 18px;
+      color: var(--var-color);
+    }
+    .pjv-container {
+      min-height: 100%;
+    }
+  }
+}
+
+
+/** 工具面板 */
+.__vm_debug-tools-panel {
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  .__vm_debug-tools-panel_inner {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex: 0 0 auto;
+    .__vm_button {
+      flex: 0 0 auto;
+    }
+  }
+  .__vm_debug-tools-panel_message {
+    flex: 0 0 auto
+  }
+  .__vm_debug-tools-panel_qrcode {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex: 0 1 auto;
+    overflow: auto;
+  }
+}

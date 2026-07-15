@@ -39,7 +39,7 @@ const json = {
 <JsonView json={json} />
 
 ```
-![img](https://github.com/user-attachments/assets/80f2b0ef-2827-440a-a857-988b2bb16dbf)
+![img](https://cdn.jsdelivr.net/gh/jxh150535011/jxh150535011.github.io@master/demo/images/preact-tiny-json-view.png)
 
 ## Features
 
