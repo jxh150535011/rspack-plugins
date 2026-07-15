@@ -20,13 +20,28 @@ export default defineConfig({
       },
       bundle: false,
       output: {
+        filename: {
+          js: '[name].mjs',
+        },
         distPath: {
           root: 'esm',
         }
       },
     },
+    {
+      format: 'cjs',
+      bundle: false,
+      output: {
+        filename: {
+          js: '[name].cjs',
+        },
+        distPath: {
+          root: 'cjs',
+        }
+      },
+    },
   ],
   output: {
-    target: 'web'
+    target: 'web',
   },
 });

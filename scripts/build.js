@@ -8,6 +8,24 @@ import { createHash } from 'crypto';
 import { getLatestTag, getPackage } from './utils.js';
 dotenv.config();
 
+
+const defaultEntryModule = {
+  esm: ['./esm/index.js', './esm/index.mjs'],
+  types: './types/index.d.ts',
+  cjs: './cjs/index.cjs',
+  dist: './dist/index.js',
+}
+
+const tryResolve = (output, entry) => {
+  const entrys = entry instanceof Array ? entry : [entry];
+  for(let i = 0; i < entrys.length; i++) {
+    if (existsSync(resolve(output, entrys[i]))) {
+      return entrys[i];
+    }
+  }
+}
+
+
 const isProd = process.env.NODE_ENV === 'production';
 
 const md5 = (content) => {
@@ -186,6 +204,15 @@ const copyBuildModule = async (item, config, packages) => {
     await copyFileAsync(src, dest);
   }));
 
+  const distDir = {
+    esm: tryResolve(output, defaultEntryModule.esm),
+    cjs: tryResolve(output, defaultEntryModule.cjs),
+    types: tryResolve(output, defaultEntryModule.types),
+    dist: tryResolve(output, defaultEntryModule.dist),
+  }
+
+  const distEntryModule = distDir.dist || distDir.cjs || distDir.esm;
+
   // 重新设置package.json
   const newPkg = {
     ...item.pkg,
@@ -198,10 +225,9 @@ const copyBuildModule = async (item, config, packages) => {
     devDependencies: {
       ...item.pkg.devDependencies,
     },
-    // 不做文件路口嗅探 ，默认直接重新设置
-    main: './cjs/index.cjs',
-    types: './types/index.d.ts',
-    module: './esm/index.js',
+    module: distDir.esm || distEntryModule,
+    main: distDir.cjs || distEntryModule,
+    types: defaultEntryModule.types,
     publishConfig: {
       registry: config.publishRegistry,
     },

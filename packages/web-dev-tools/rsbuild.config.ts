@@ -25,7 +25,7 @@ export default defineConfig({
     },
   },
   html: {
-    template: './public/index.html',
+    template: './demo/index.html',
     inject: 'body',
     scriptLoading: 'blocking',
     tags: [

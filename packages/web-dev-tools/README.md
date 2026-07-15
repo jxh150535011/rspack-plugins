@@ -12,7 +12,7 @@ pnpm install web-dev-tools
 【Recommendation】Web Runtime mode: package web-dev-tools into a single runtime bundle.
 
 ```tsx
-<script src="https://unpkg.com/web-dev-tools@1.0.0/web/index.js" />
+<script src="https://unpkg.com/web-dev-tools@1.0.0/web/static/js/index.js" />
 
 <script>
 if (window.WebDevTools) {
