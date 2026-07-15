@@ -1,5 +1,5 @@
 {
-  "name": "web-dev-tools",
+  "name": "web-debug-toolkit",
   "version": "1.0.0",
   "type": "module",
   "main": "./src/index.ts",
@@ -19,7 +19,8 @@
     "vitals",
     "dev",
     "tools",
-    "dev-tools"
+    "dev-tools",
+    "toolkit"
   ],
   "scripts": {
     "doc": "rspress dev",

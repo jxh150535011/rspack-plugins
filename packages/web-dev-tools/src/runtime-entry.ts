@@ -4,6 +4,6 @@ import 'core-js/es/array/flat-map';
 
 import { startMonitor } from './index';
 // @ts-ignore
-window.WebDevTools = {
+window.WebDebugToolkit = {
   startMonitor,
 }

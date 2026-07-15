@@ -1,22 +1,22 @@
-# web-dev-tools
+# start
 
 A lightweight debugging panel featuring a Chrome DevTools-inspired UI. It supports data reporting and allows reported data to be forwarded to a backend interface for in-depth analysis.
 
 ```bash
-pnpm install web-dev-tools
+pnpm install web-debug-toolkit
 ```
 
 ## Example
 
 
-【Recommendation】Web Runtime mode: package web-dev-tools into a single runtime bundle.
+【Recommendation】Web Runtime mode: package web-debug-toolkit into a single runtime bundle.
 
 ```tsx
-<script src="https://unpkg.com/web-dev-tools@1.0.0/web/static/js/index.js" />
+<script src="https://unpkg.com/web-debug-toolkit@1.0.0/web/static/js/index.js" />
 
 <script>
-if (window.WebDevTools) {
-  window.WebDevTools.startMonitor({
+if (window.WebDebugToolkit) {
+  window.WebDebugToolkit.startMonitor({
     debug: true,
     // If there is a reporting/upload service, the server-side needs to be deployed. 
     // Server-side services are not currently provided.
@@ -32,10 +32,10 @@ if (window.WebDevTools) {
 
 
 
-npm 模式
+npm mode
 
 ```tsx
-import { startMonitor } from 'web-dev-tools';
+import { startMonitor } from 'web-debug-toolkit';
 
 
 startMonitor({
@@ -44,7 +44,7 @@ startMonitor({
   // enable whiteScreen
   whiteScreen: {
     root: '#root',
-    placeholder: '白屏',
+    placeholder: 'Not supported',
   },
   // If there is a reporting/upload service, the server-side needs to be deployed. 
   // Server-side services are not currently provided.
