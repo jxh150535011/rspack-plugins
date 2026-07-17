@@ -238,10 +238,10 @@ const copyBuildModule = async (item, config, packages) => {
   const devDependencies = newPkg.devDependencies;
   for (let i = 0; i < packages.length; i++) {
     const item = packages[i];
-    if (newPkg.dependencies[item.name]) {
+    if (newPkg.dependencies[item.name] && newPkg.dependencies[item.name].startsWith('workspace:')) {
       newPkg.dependencies[item.name] = config.version;
     }
-    if (newPkg.devDependencies[item.name]) {
+    if (newPkg.devDependencies[item.name] && newPkg.devDependencies[item.name].startsWith('workspace:')) {
       newPkg.devDependencies[item.name] = config.version;
     }
   }

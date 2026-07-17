@@ -12,7 +12,7 @@ pnpm install web-debug-toolkit
 【Recommendation】Web Runtime mode: package web-debug-toolkit into a single runtime bundle.
 
 ```tsx
-<script src="https://unpkg.com/web-debug-toolkit@1.0.0/web/static/js/index.js" />
+<script src="https://unpkg.com/web-debug-toolkit@1.0.1/web/static/js/index.js" />
 
 <script>
 if (window.WebDebugToolkit) {
