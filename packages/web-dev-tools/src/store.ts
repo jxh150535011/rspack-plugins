@@ -3,6 +3,7 @@
 let config = {
   endpoint: '',
   env: 'unknown',
+  name: 'unknown',
 }
 export const setConfig = (options: any) => {
   config = {

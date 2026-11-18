@@ -24,30 +24,33 @@ export const QRCode = (props: QRCodeProps) => {
       return;
     }
 
-    // qrcode.toCanvas($canvas, value, {
-    //   width: size * 2,
-    //   errorCorrectionLevel: 'H',
-    //   scale: 2,
-    //   margin: 1
-    // }, () => {
 
-    //   $canvas.style.width = size + 'px';
-    //   $canvas.style.height = size + 'px';
 
-    //   const ctx: any = $canvas.getContext('2d');
-    //   const logoSize = Math.floor($canvas.width * 0.28); // Logo 占比
-    //   const x = ($canvas.width - logoSize) / 2;
-    //   const y = ($canvas.height - logoSize) / 2;
-    //   ctx.fillStyle = '#ffffff';
-    //   ctx.fillRect(x - 4, y - 4, logoSize + 8, logoSize + 8); // 加白边
+    // @ts-ignore
+    qrcode?.toCanvas($canvas, value, {
+      width: size * 2,
+      errorCorrectionLevel: 'H',
+      scale: 2,
+      margin: 1
+    }, () => {
 
-    //   ctx.fillStyle = '#000000';
-    //   ctx.font = 'bold 32px Arial';
-    //   ctx.textAlign = 'center'; 
-    //   ctx.textBaseline = 'middle';
-    //   ctx.fillText(logoText, x + logoSize / 2, y + logoSize / 2);
+      $canvas.style.width = size + 'px';
+      $canvas.style.height = size + 'px';
 
-    // });
+      const ctx: any = $canvas.getContext('2d');
+      const logoSize = Math.floor($canvas.width * 0.28); // Logo 占比
+      const x = ($canvas.width - logoSize) / 2;
+      const y = ($canvas.height - logoSize) / 2;
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(x - 4, y - 4, logoSize + 8, logoSize + 8); // 加白边
+
+      ctx.fillStyle = '#000000';
+      ctx.font = 'bold 32px Arial';
+      ctx.textAlign = 'center'; 
+      ctx.textBaseline = 'middle';
+      ctx.fillText(logoText, x + logoSize / 2, y + logoSize / 2);
+
+    });
   }, [value, logoText, size]);
 
   return html`

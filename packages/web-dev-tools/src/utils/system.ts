@@ -109,11 +109,19 @@ const getCookieItems = () => {
 }
 
 
-export const getMonitorAllData = (instance: Monitor) => {
+
+export const getMonitorAllData = (instance: Monitor, config: any) => {
   const clientInfo = getClientInfo();
+
   return {
     ...instance.getData(),
-    system: clientInfo,
+    system: clientInfo.concat([
+      {
+        id: 'meta',
+        label: 'Meta',
+        value: JSON.stringify(config.meta),
+      }
+    ]),
     localStorage: getStorageItems(window.localStorage),
     sessionStorage: getStorageItems(window.sessionStorage),
     cookie: getCookieItems(),

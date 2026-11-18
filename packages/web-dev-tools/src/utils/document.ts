@@ -23,3 +23,12 @@ export function domReady(success: any, error: any) {
     initDOMContentLoaded();
   }
 }
+
+
+export const isApplicationJsonType = (contentType?: any) => {
+  if (!contentType) {
+    return false;
+  }
+  const type = String(contentType).split(';')[0];
+  return type.toLowerCase() === 'application/json'
+};

@@ -78,11 +78,11 @@ export const List = (props: ListProps) => {
   const list = useMemo(() => {
     const visibleSet = visibleKeysSetRef.current;
     return options.map((item: any, index: number) => {
-      const id = String(item.id || index);
+      const key = String(item.key || item.id || index);
       return {
         origin: item,
-        id,
-        visible: hasIntersectionObserver ? visibleSet.has(id) : true,
+        key,
+        visible: hasIntersectionObserver ? visibleSet.has(key) : true,
       }
     });
   }, [refreshKey, options]);
@@ -90,7 +90,7 @@ export const List = (props: ListProps) => {
   return html`
     <div className="__vm_list ${className}" ref="${targetRef}">
       ${list.map((item, index) => html`
-        <${ListItem} item="${item.origin}" key="${item.id}" visible="${item.visible}" id="${item.id}" />
+        <${ListItem} item="${item.origin}" key="${item.key}" visible="${item.visible}" id="${item.key}" />
       `)}
     </div>
   `;

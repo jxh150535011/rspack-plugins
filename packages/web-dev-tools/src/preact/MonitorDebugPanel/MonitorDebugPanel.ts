@@ -6,8 +6,10 @@ import { ConsolePanel } from './ConsolePanel';
 import { NetworkPanel } from './NetWorkPanel';
 import { ApplicationPanel } from './ApplicationPanel';
 import { ToolsPanel } from './ToolsPanel';
-import { List, Tabs } from '../Component';
-import { getClientInfo, getMonitorAllData } from '../../utils';
+import { List, Tabs, Button } from '../Component';
+import { getMonitorAllData } from '../../utils';
+import { getConfig } from '../../store';
+import { debounce } from 'lodash-es'
 
 const defaultTabs = [
   {
@@ -145,15 +147,17 @@ export const MonitorDebugPanel = (props: any) => {
 
 
   const monitorData = useMemo(() => {
+    const config = getConfig();
     let allData = data || {};
     if (instance) {
-      allData = getMonitorAllData(instance);
+      allData = getMonitorAllData(instance, config);
     }
     return allData;
   }, [instance, data, refreshKey]);
 
 
   const currentList = useMemo(() => {
+
     // @ts-ignore
     let list = monitorData[activeTabKey] || [];
     if (activeSubTabKey && activeSubTabKey !== 'all') {
@@ -189,15 +193,20 @@ export const MonitorDebugPanel = (props: any) => {
     setRefreshKey(refreshKey + 1);
   }
 
-  useEffect(() => {
-    const handleRefreshEvent = () => {
-      setRefreshKey(refreshKey + 1);
-    }
-    instance?.addListener(handleRefreshEvent);
-    return () => {
-      instance?.removeListener(handleRefreshEvent);
-    }
-  }, []);
+  const isShowFooter = false; // ['console'].includes(activeTabKey);
+
+
+  // useEffect(() => {
+  //   const handleRefreshEvent = debounce(() => {
+  //     setRefreshKey((prev) => {
+  //       return prev + 1;
+  //     });
+  //   }, 500);
+  //   instance?.addListener(handleRefreshEvent);
+  //   return () => {
+  //     instance?.removeListener(handleRefreshEvent);
+  //   }
+  // }, []);
 
   return html`
     <div class="__vm_debug-panel">
@@ -205,7 +214,7 @@ export const MonitorDebugPanel = (props: any) => {
       <${Tabs} type="subtab" options=${subOptions} activeKey=${activeSubTabKey} onChange=${handleSubTabChange} />
       <div class="__vm_debug-panel__content">
         ${activeTabKey === 'console' && html`
-          <${ConsolePanel} list=${currentList} readOnly=${readOnly} onClear=${handleClearConsole} />
+          <${ConsolePanel} list=${currentList} refreshKey=${refreshKey} readOnly=${readOnly} onClear=${handleClearConsole} />
         `}
         ${activeTabKey === 'system' && html`
           <div class="__vm_debug-console-panel">
@@ -222,6 +231,11 @@ export const MonitorDebugPanel = (props: any) => {
           ${instance ? html`<${ToolsPanel} instance=${instance} /> ` : null}
         `}
       </div>
+      ${isShowFooter ?  html`
+        <div className="__vm_debug-panel__footer">
+          <${Button} type="primary" size="small" onClick="${handleRefresh}">Refresh</${Button}>
+        </div>
+      ` : null}
     </div>
   `;
 }

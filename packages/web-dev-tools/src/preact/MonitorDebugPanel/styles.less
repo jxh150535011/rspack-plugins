@@ -84,7 +84,18 @@
       }
     }
   }
-
+  /** 底部操作区域 */
+  .__vm_debug-panel__footer {
+    height: 28px;
+    flex: 0 0 auto;
+    border-top: 1px solid var(--var-divider-color);
+    background: var(--var-color-1);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    padding: 0 32px;
+  }
 }
 /** 控制台面板 */
 .__vm_debug-console-panel {
@@ -93,16 +104,7 @@
   overflow: auto;
   display: flex;
   flex-direction: column;
-  .__vm_debug-console-panel_toolbar {
-    flex: 0 0 auto;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 0 4px;
-    box-sizing: border-box;
-    border-bottom: 1px solid var(--var-divider-color);
-  }
+  position: relative;
   .__vm_list {
     flex: 1 1 auto;
   }
@@ -147,7 +149,8 @@
   .__vm_debug-netowrk-panel__content {
     height: 100%;
     flex: 1 1 auto;
-    overflow: hidden;
+    // overflow: hidden;
+    overflow: auto;
   }
   .__vm_debug-netowrk-panel__toolbar {
     height: 28px;
@@ -159,6 +162,24 @@
     align-items: center;
     gap: 4px;
     padding: 0 32px;
+  }
+  .__vm_debug-netowrk-panel__content_title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 20px;
+    & > span {
+      display: block;
+    }
+    & > span:nth-child(2) {
+      border: 1px solid #027db7;
+      border-radius: 15px;
+      padding: 0 8px;
+      cursor: pointer;
+    }
+  }
+  .__vm_debug-netowrk-panel__content_pre {
+    white-space: pre-wrap;
   }
   .__vm_debug-netowrk-panel__content_response {
     height: 100%;

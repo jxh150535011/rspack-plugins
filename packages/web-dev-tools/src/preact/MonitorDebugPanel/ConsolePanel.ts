@@ -1,7 +1,7 @@
 import { Component, render } from 'preact';
-import { useState, useMemo } from 'preact/hooks';
+import { useState, useMemo, useRef } from 'preact/hooks';
 import { html } from 'htm/preact';
-import { List, Input, Button } from '../Component';
+import { List, Input, Button, ToolBar } from '../Component';
 import { objectParse } from '../../utils';
 import { JsonView } from 'preact-tiny-json-view';
 import type { MonitorConsoleDataType  } from '../../types';
@@ -10,12 +10,21 @@ export interface ConsolePanelProps {
   list: MonitorConsoleDataType[];
   readOnly?: boolean;
   onClear?: () => void;
+  refreshKey?: string;
 }
 
 export const ConsolePanel = (props: ConsolePanelProps) => {
-  const { list = [], readOnly = false, onClear } = props;
+  const { list = [], readOnly = false, onClear, refreshKey } = props;
+
+  const toolBarRef = useRef<any>(null);
 
   const [keyword, setKeyword] = useState('');
+  const [currentRefreshKey, setCurrentRefreshKey] = useState(refreshKey || '');
+
+
+  const handleRefresh = () => {
+    setCurrentRefreshKey(currentRefreshKey + 1);
+  }
 
   const handleSearch = (newKeyword: string) => {
     setKeyword(newKeyword);
@@ -38,8 +47,7 @@ export const ConsolePanel = (props: ConsolePanelProps) => {
         className: item.type || 'info',
       }
     })
-  }, [list]);
-
+  }, [list, refreshKey, currentRefreshKey]);
 
   const filterOptions = useMemo(() => {
     if (!keyword) {
@@ -52,19 +60,20 @@ export const ConsolePanel = (props: ConsolePanelProps) => {
   }, [options, keyword]);
 
   const handleClearClick = () => {
+    toolBarRef.current?.setScrollTop(0);
     onClear?.();
   }
 
 
-
   return html`
     <div class="__vm_debug-console-panel">
-      <div className="__vm_debug-console-panel_toolbar">
+      <${ToolBar} customRef="${toolBarRef}">
         <${Input} value="${keyword}" placeholder="Filter" onChange="${handleSearch}" size="small" />
         ${!readOnly ? html`
           <${Button} type="primary" size="small" onClick="${handleClearClick}">Clear</${Button}>
+          <${Button} type="primary" size="small" onClick="${handleRefresh}">Refresh</${Button}>
         ` : null}
-      </div>
+      </${ToolBar}>
       <${List} className="console" options=${filterOptions} />
     </div>
   `;

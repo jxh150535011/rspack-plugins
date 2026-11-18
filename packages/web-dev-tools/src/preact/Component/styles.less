@@ -289,13 +289,15 @@ body.__vm_modal--visible {
   display: flex;
   flex-direction: row;
   align-items: center;
-  height: 24px;
+  height: 28px;
   line-height: 23px;
   border-bottom: 1px solid var(--var-divider-color);
   padding-left: 10px;
   flex: 0 0 auto;
   font-weight: bolder;
   color: var(--var-active-color);
+  padding-top: 2px;
+  padding-bottom: 2px;
   .__vm_collapse_item__header_expand {
     width: 0;
     height: 0;
@@ -365,4 +367,26 @@ body.__vm_modal--visible {
   }
 }
 
+
+/** __vm_toolbar **/
+
+.__vm_toolbar {
+  flex: 0 0 auto;
+  height: 24px;
+  .__vm_toolbar__inner {
+    background: var(--var-color-1);
+    height: 24px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--var-divider-color);
+    top: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 8;
+  }
+}
 

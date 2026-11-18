@@ -41,15 +41,39 @@ const columns = [
     title: 'Size',
     field: 'size',
     width: 80,
-    render(size: number) {
+    render(size: number, item: any) {
       return formatSize(size);
     }
   },
+  {
+    title: 'Delivery Type',
+    field: 'delivery_type',
+    width: 100,
+  },
+  // {
+  //   title: 'Source',
+  //   field: 's_size',
+  //   width: 80,
+  //   render(size: number, item: any) {
+  //     return formatSize(size);
+  //   }
+  // },
   {
     title: 'Time',
     field: 'time',
     width: 80,
     render(time: number) {
+      return `${Math.round(time)}ms`;
+    }
+  },
+  {
+    title: 'Duration',
+    field: 'duration',
+    width: 80,
+    render(time: number) {
+      if (!time) {
+        return '-';
+      }
       return `${Math.round(time)}ms`;
     }
   },

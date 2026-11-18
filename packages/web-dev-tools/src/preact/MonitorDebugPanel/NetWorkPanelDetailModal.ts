@@ -2,8 +2,9 @@ import { useState, useMemo } from 'preact/hooks';
 import { JsonView } from 'preact-tiny-json-view';
 import { html } from 'htm/preact';
 import type { MonitorNetworkDataType  } from '../../types';
-import { Collapse, Tabs, Modal, Descriptions, Button } from '../Component';
-import { objectToList, toJson } from '../../utils';
+import { Collapse, Tabs, Modal, Descriptions, Button, CopyButton } from '../Component';
+import { objectToList, copyText, isApplicationJsonType } from '../../utils';
+import { toJson } from '../../utils';
 
 
 
@@ -94,18 +95,46 @@ export const NetWorkPanelHeaderTabContent = (props: any) => {
   `;
 }
 
-const renderBody = (body: any) => {
+const renderBody = (body: any, isParsed: boolean = true) => {
   if (!body) {
     return null;
   }
-  if (body?.type === 'application/json') {
+  if (isApplicationJsonType(body?.type) && isParsed) {
     const obj = toJson(body.content);
     return html`
       <${JsonView} value="${obj}" />
     `;
   }
   return html`
-    <pre>${body?.content || ''}</pre>
+    <pre className="__vm_debug-netowrk-panel__content_pre">${body?.content || ''}</pre>
+  `
+}
+
+
+interface CollapseJsonTitleProps {
+  title: string;
+  onCopy: (e: any) => void;
+  isParsed: boolean;
+  onParsedChange: (isParsed: boolean) => void;
+}
+const CollapseJsonTitle = (props: CollapseJsonTitleProps) => {
+  const { title, onCopy, isParsed, onParsedChange } = props;
+
+  const handleParsedChange = (e: any) => {
+    e.stopPropagation();
+    onParsedChange(!isParsed);
+  }
+  const handleCopy = (e: any) => {
+    e.stopPropagation();
+    onCopy?.(e);
+  }
+
+  return html`
+    <div className="__vm_debug-netowrk-panel__content_title">
+      <span>${title}</span>
+      <span onClick="${handleParsedChange}">${isParsed ? 'View source' : 'View parsed'}</span>
+      <${CopyButton} size="small" onClick="${handleCopy}"/>
+    </div>
   `
 }
 
@@ -113,12 +142,22 @@ const renderBody = (body: any) => {
 export const NetWorkPanelPayloadTabContent = (props: any) => {
   const { data } = props;
 
+  const [isParsed, setIsParsed] = useState(true);
+
+  const handleParsedChange = (isParsed: boolean) => {
+    setIsParsed(isParsed);
+  }
+
+  const handleCopy = () => {
+    copyText(data?.request?.body?.content || '');
+  }
+
   const columns = useMemo(() => {
     if (!data) {
       return [];
     }
     const queryStringParams = objectToList(toJson(data?.request?.params || {}));
-    const requestBodyNode = renderBody(data?.request?.body);
+    const requestBodyNode = renderBody(data?.request?.body, isParsed);
     return [
       {
         value: 'queryStringParams',
@@ -131,13 +170,20 @@ export const NetWorkPanelPayloadTabContent = (props: any) => {
       },
       requestBodyNode ? {
         value: 'requestPayload',
-        label: 'Request Payload',
+        label: html`
+          <${CollapseJsonTitle}
+            title="Request Payload"
+            isParsed=${isParsed}
+            onParsedChange=${handleParsedChange}
+            onCopy=${handleCopy}
+          />
+        `,
         key: 'requestPayload',
         collapsed: false,
         children: requestBodyNode,
       } : null,
     ].filter(p => !!p)
-  }, [data])
+  }, [data, isParsed])
 
   const defaultActiveKey = columns.filter((item) => !item.collapsed).map((item) => item.value);
 
@@ -181,50 +227,7 @@ export const NetWorkPanelResponseTabContent = (props: any) => {
 
 
 
-async function copyText(text: string) {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    try {
-      await navigator.clipboard.writeText(text);
-      return true;
-    } catch(e) {
-      const success = execCommandCopy(text);
-      return success;
-    }
-  }
-  return execCommandCopy(text);
-}
 
-/**
- * 使用 execCommand 复制（兼容性最好）
- */
-function execCommandCopy(text: string) {
-  try {
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    // 设置样式使其不可见
-    textarea.style.position = 'fixed';
-    textarea.style.top = '-9999px';
-    textarea.style.left = '-9999px';
-    textarea.style.width = '1px';
-    textarea.style.height = '1px';
-    textarea.style.opacity = '0';
-    textarea.style.pointerEvents = 'none';
-    textarea.style.zIndex = '-1';
-    document.body.appendChild(textarea);
-    // 选中文本
-    textarea.select();
-    textarea.setSelectionRange(0, text.length);
-    // 执行复制 
-    const success = document.execCommand('copy');
-    // 清理
-    document.body.removeChild(textarea);
-    
-    return success;
-  } catch (error) {
-    console.error('execCommand 复制失败:', error);
-    return false;
-  }
-}
 
 export const NetWorkPanelDetailModal = (props: NetWorkPanelDetailModalProps) => {
   const { data, onClose } = props;

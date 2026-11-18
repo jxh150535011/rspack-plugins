@@ -1,6 +1,7 @@
 import { Component, render } from 'preact';
 import { useState, useMemo } from 'preact/hooks';
 import { html } from 'htm/preact';
+import VirtualList from 'preact-virtual-list';
 import { Table, List, Button, showToast, Input } from '../Component';
 import { JsonView } from 'preact-tiny-json-view';
 import { toJson } from '../../utils';

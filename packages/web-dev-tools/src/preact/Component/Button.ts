@@ -14,11 +14,11 @@ export interface ButtonProps {
 export const Button = (props: ButtonProps) => {
   const { className, children, type, onClick, disabled, size } = props;
 
-  const handleClick = () => {
+  const handleClick = (e: any) => {
     if (disabled) {
       return;
     }
-    onClick?.();
+    onClick?.(e);
   }
 
   return html`

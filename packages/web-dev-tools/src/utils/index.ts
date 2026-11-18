@@ -4,3 +4,4 @@ export * from './document';
 export * from './json';
 export * from './url';
 export * from './uuid';
+export * from './text';
